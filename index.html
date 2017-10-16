@@ -64,89 +64,151 @@
 <span class="time value">?</span>
 
 <div class="container"> 
-  <br> 
+  <ul class="nav nav-tabs sections">
+    <li><a data-toggle="tab" href="#gameTab" class="gameTab">Game</a></li>
+    <li><a data-toggle="tab" href="#rulesTab" class="rulesTab">Rules</a></li>
+    <li><a data-toggle="tab" href="#settings">Settings</a></li>
+  </ul>
+  <div class="tab-content">
+    <div id="gameTab" class="tab-pane fade active in">
+    
+      <div class="container"> 
+        <br> 
 
-  <div class="row centered">   
-    <div class="col-sm-4">       
-      <div class="panel panel-primary panel-readiness">
-        <div class="panel-heading big left">
-          Farm
-        </div>
-        <div class="panel-body big left">
-          <span class="farm value">?</span> 
-          <span class="label label-success farm income">+?</span>
-        </div>
-      </div>   
-    </div>    
-    <div class="col-sm-4">       
-      <div class="panel panel-primary panel-idle">
-        <div class="panel-heading big left">
-          Idle Bonus 
-        </div>
-        <div class="panel-body big left">
-          <span class="idle value">?</span> 
-        </div>
-      </div>     
-    </div>
-    <div class="col-sm-2">       
-      <div class="panel panel-primary panel-readiness">
-        <div class="panel-heading big left">
-          Level 
-        </div>
-        <div class="panel-body big left">
-          <span class="level value">?</span> 
-        </div>
-      </div>   
-    </div>
-    <div class="col-sm-2">       
-      <div class="panel panel-primary panel-life">
-        <div class="panel-heading big left">
-          Life 
-        </div>
-        <div class="panel-body big left">
-          <span class="life value">?</span> 
-        </div>
-      </div>   
-    </div>
-  </div>  
-  
-  <div class="row centered quests alive">
-    <div class="col-sm-4 hidden questSample">    
-      <div class="panel panel-default panel-readiness">   
-        <div class="panel-body big population">
-          Danger: <span class="danger"></span>
-        </div> 
-        <div class="panel-body big population">
-          Death chance: <span class="deathChance"></span>
-        </div> 
-        <div class="panel-body big population">
-          Reward: <span class="reward"></span> farm
-        </div> 
-        <div class="panel-body big population">
-          <button type="button" class="btn btn-primary choose">Choose</button> 
-        </div> 
-      </div>   
-    </div>
-  </div> 
-  <div class="row centered dead">
-    <div class="col-sm-12">    
-      <div class="panel panel-danger panel-readiness">   
-        <div class="panel-body big">
-          YOU DEAD
-        </div>          
-        <div class="panel-body">
-          Chance of death was <span class="lastDeathChance value"></span>
-        </div>        
-        <div class="panel-body big lifePositive">
-          <button class="btn btn-warning" onclick="revive()">Revive (<span class="life value">?</span> remains)</button>
-        </div>        
-        <div class="panel-body big lifeNonPositive">
-          <button class="btn btn-danger" onclick="wipeSave()">Restart</button>
+        <div class="row centered">   
+          <div class="col-sm-4">       
+            <div class="panel panel-primary panel-readiness">
+              <div class="panel-heading big left">
+                Farm
+              </div>
+              <div class="panel-body big left">
+                <span class="farm value">?</span> 
+                <span class="label label-success farm income">+?</span>
+              </div>
+            </div>   
+          </div>    
+          <div class="col-sm-4">       
+            <div class="panel panel-primary panel-idle">
+              <div class="panel-heading big left">
+                Idle Bonus 
+              </div>
+              <div class="panel-body big left">
+                <span class="idle value">?</span> 
+              </div>
+            </div>     
+          </div>
+          <div class="col-sm-2">       
+            <div class="panel panel-primary panel-readiness">
+              <div class="panel-heading big left">
+                Level 
+              </div>
+              <div class="panel-body big left">
+                <span class="level value">?</span> 
+              </div>
+            </div>   
+          </div>
+          <div class="col-sm-2">       
+            <div class="panel panel-primary panel-life">
+              <div class="panel-heading big left">
+                Life 
+              </div>
+              <div class="panel-body big left">
+                <span class="life value">?</span> 
+              </div>
+            </div>   
+          </div>
         </div>  
-      </div>   
+        
+        <div class="row centered quests alive">
+          <div class="col-sm-4 hidden questSample">    
+            <div class="panel panel-default panel-readiness">   
+              <div class="panel-body big population">
+                Danger: <span class="danger"></span>
+              </div> 
+              <div class="panel-body big population">
+                Death chance: <span class="deathChance"></span>
+              </div> 
+              <div class="panel-body big population">
+                Reward: <span class="reward"></span> farm
+              </div> 
+              <div class="panel-body big population">
+                <button type="button" class="btn btn-primary choose">Choose</button> 
+              </div> 
+            </div>   
+          </div>
+        </div> 
+        <div class="row centered dead">
+          <div class="col-sm-12">    
+            <div class="panel panel-danger panel-readiness">   
+              <div class="panel-body big">
+                YOU DEAD
+              </div>          
+              <div class="panel-body">
+                Chance of death was <span class="lastDeathChance value"></span>
+              </div>        
+              <div class="panel-body big lifePositive">
+                <button class="btn btn-warning" onclick="revive()">Revive (<span class="life value">?</span> remains)</button>
+              </div>        
+              <div class="panel-body big lifeNonPositive">
+                <button class="btn btn-danger" onclick="wipeSave()">Restart</button>
+              </div>  
+            </div>   
+          </div>
+        </div> 
+      </div> 
+    </div>    
+    <div id="rulesTab" class="tab-pane fade">
+      
+      <br> 
+      <div class="container"> 
+        <div class="container">
+          <div class="jumbotron">
+            <h1>Rules</h1> 
+            <p>
+              Choose one battle on each level. 
+            </p>
+            <p>
+              Each battle has it's difficulty and reward. 
+            </p>
+            <p>
+              When you choose battle:  
+            </p>
+            <p>
+              - with probability <i>difficulty</i> / (<i>farm</i> * <i>idleBonus</i> + <i>difficulty</i>) you die (lose 1 life) and all three battles renewed
+            </p>
+            <p>
+              - otherwise, you win and gain <i>reward</i> added to your farm and also advance 1 level
+            </p>
+            <p>
+              Each next level has harder battles and bigger rewards
+            </p>
+            <p>
+              Your <i>idleBonus</i> is amount of seconds since last battle - wait to make your next fight more efficient
+            </p>
+            <p>
+              If you die with 1 life, game is over. No saves, no undos. Be careful.
+            </p>
+            <p>
+              Each 10 levels you gain extra life
+            </p>
+            <p>
+              Each 100 levels you gain x10 quest rewards (passive, stacks multiplicatively, no separate UI for this
+            </p>
+            <p>
+              Each 1000 levels you gain x10 quest rewards (passive, stacks multiplicatively, no separate UI for this
+            </p>
+          </div>
+        </div>
+      </div>
     </div>
-  </div> 
-  <button class="btn btn-danger" data-toggle="modal" data-target="#confirm-wipe-save">Wipe save</button>
+    <div id="settings" class="tab-pane fade">
+      
+      <br> 
+      <button class="btn btn-danger" data-toggle="modal" data-target="#confirm-wipe-save">
+        Wipe save
+      </button>
+    </div>
+  </div>
 </div>
   
 <div class="modal fade" id="confirm-wipe-save" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">

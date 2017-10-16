@@ -1,0 +1,9 @@
+quest manacost
+mana regen 1/s
+
+mulligan
+double death check (both fail to die)
+invulnerable next battle
+x100 death check (either fail to die); x100 reward
+death check repeat until die; repeat reward 
+different idle power for different quests

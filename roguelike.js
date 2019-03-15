@@ -47,10 +47,13 @@ function createRoguelike(params) {
     life: variable(3, 'life'),
     activeLife: variable(1, 'activeLife'),
     idle: variable(1, 'idle'),
-    lastDeathChance: variable(1, 'lastDeathChance', {formatter: x => Format.percent(x, 2)})
+    lastDeathChance: variable(1, 'lastDeathChance', {formatter: x => Format.percent(x, 2)}),
+    mana: variable(0, 'mana'),
+    manaIncome: variable(1, 'manaIncome')
   }
   quests = []
 
+	resources.mana.income = resources.manaIncome
   //resources.farm.income = resources.farmIncome;
   
   revive = function() {

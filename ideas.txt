@@ -1,9 +1,83 @@
-quest manacost
-mana regen 1/s
-
-mulligan
-double death check (both fail to die)
-invulnerable next battle
-x100 death check (either fail to die); x100 reward
-death check repeat until die; repeat reward 
-different idle power for different quests
+features:
+	[BRILLIANT!!!] quest manacost
+		mana regen 1/s
+	shadow twin: second run, you gain sqrt(his farm)
+	challenges: second run, you gain bonuses for certain achievements
+		gain as mush farm as possible in 1 minute
+		proceed to level 100 as fast as possible
+		proceed with no death as far as possible
+	time armour: gain multiplyer T for your strength, where T is game time
+ 	gain gold from quests; buy farm for gold, cost efficiency multiplied by idle time
+  
+quest rewards:
+	farm income
+	items
+	life
+	farm reward multiplyer
+	
+quest properties:
+	idle bonus applied K times (K may be fractional)
+	multiple life spent on death
+	multiple death check (AND, OR)
+	echo: death check repeat until die; repeat reward 
+	you lose 50% farm on death
+	you lose X farm on attempt
+	-X idle bonus (no attempts with idle bonus < X)
+	reward multiplied by idle bonus
+	stun T seconds on death
+	stun T seconds on attempt
+	curse on death
+	curse on attempt
+	
+curses:
+	multiple death check (OR)
+	-X% farm
+	stun on death
+	stun on attempt
+	
+	
+items:
+	[!] mulligan
+	double death check (AND)
+	[!] bubble: invulnerable next battle
+	x100 death check (OR); x100 reward
+	x100 danger, x10 reward
+	danger/10, reward/100
+	echo next battle
+	[!] back N levels
+	[!] forward N levels
+	win next battle 100%; no reward (same as forward 1 level?)
+	idle accumulator
+		abilities
+			charge: lose all idle time, this item get 1 charge per T seconds idle time lost
+			release: gain 1 second idle time per charge
+		variations
+			charge ability limited usages
+			release ability limited usages
+			limited max charges
+			lose previous charges when charge ability used
+			lose charges over time
+	[!] double idle time
+	[!] double farm
+	[!] double rewards
+	+X% farm per second
+	+X idle power 
+	+X start idle bonus
+	rewards multiplied by X idle power
+	X% chance cancel quest on death
+	+X life per second
+	+X life per level
+	predict quest
+	
+	
+superpowers
+	Coil power: split reality into two. Play both in parallel. Destroy one at will at any moment.
+	
+	
+achievements:
+	die with low probability P
+	win with low probability P
+	proceed N levels in T seconds
+	multiply farm K times per click
+	do not lose life N levels in a row
+	

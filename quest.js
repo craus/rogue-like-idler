@@ -21,7 +21,7 @@ quest = function(params = {}) {
     var quality = gaussianRandom(baseQuality, randomQuality)
     console.log("quality", quality)
     result.difficulty = Math.pow(10, power)    
-    result.reward = Math.pow(10, quality + power)
+    result.baseReward = Math.pow(10, quality + power)
   }
   
   var panel = instantiate('questSample')
@@ -32,7 +32,10 @@ quest = function(params = {}) {
   
   result = Object.assign(result, {
     deathChance: function() {
-      return this.difficulty/(resources.farm()*resources.idle()+this.difficulty)
+      return this.difficulty/(resources.farm()*Math.pow(resources.idle(), strengthIdlePower)+this.difficulty)
+    },
+    reward: function() {
+      return this.baseReward * Math.pow(resources.idle(), farmRewardIdlePower)
     },
     choose: function() {
       if (resources.idle() < minIdleForQuest) {
@@ -44,7 +47,7 @@ quest = function(params = {}) {
         if (resources.level() % 10 == 0) {
           resources.life.value += 1
         }
-        resources.farm.value += this.reward
+        resources.farm.value += this.reward()
       } else {
         resources.life.value -= 1
         resources.activeLife.value -= 1
@@ -57,6 +60,7 @@ quest = function(params = {}) {
     paint: function() {
       setFormattedText(panel.find('.deathChance'), Format.percent(result.deathChance(), 2))
       panel.find('.choose').toggleClass('disabled', resources.idle() < minIdleForQuest)
+      setFormattedText(panel.find('.reward'), large(this.reward()))
     },
     save: function() {
       savedata.quests.push(Object.assign({
@@ -69,7 +73,6 @@ quest = function(params = {}) {
   
   setFormattedText(panel.find('.danger'), large(result.difficulty))
   setFormattedText(panel.find('.deathChance'), Format.percent(result.deathChance(), 2))
-  setFormattedText(panel.find('.reward'), large(result.reward))
   panel.find('.choose').click(() => result.choose())
   
   return result

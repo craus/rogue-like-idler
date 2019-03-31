@@ -38,6 +38,8 @@ function createRoguelike(params) {
   }
   
   minIdleForQuest = 1
+  strengthIdlePower = 0
+  farmRewardIdlePower = 1
   
   resources = {
     farm: variable(1, 'farm', {formatter: large, incomeFormatter: x => noZero(signed(large(x)))}),

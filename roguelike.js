@@ -39,11 +39,13 @@ function createRoguelike(params) {
   
   minIdleForQuest = 1
   strengthIdlePower = 0
-  farmRewardIdlePower = 1
+  farmRewardIdlePower = 0
+  farmReward = 0
+  farmIncomeReward = 1
   
   resources = {
     farm: variable(1, 'farm', {formatter: large, incomeFormatter: x => noZero(signed(large(x)))}),
-    farmIncome: variable(0, 'farmIncome', {formatter: large}),
+    farmIncome: variable(1, 'farmIncome', {formatter: large}),
     time: variable(0, 'time', {formatter: Format.time}),
     level: variable(0, 'level'),
     life: variable(3, 'life'),
@@ -53,7 +55,7 @@ function createRoguelike(params) {
   }
   quests = []
 
-  //resources.farm.income = resources.farmIncome;
+  resources.farm.income = resources.farmIncome
   
   revive = function() {
     resources.activeLife.value += 1
@@ -85,6 +87,11 @@ function createRoguelike(params) {
       $('.dead').toggle(resources.activeLife() <= 0)
       $('.lifePositive').toggle(resources.life() > 0)
       $('.lifeNonPositive').toggle(resources.life() <= 0)
+      
+      $('.idle').toggle(farmIncomeReward == 0)
+      $('.idle2').toggle(farmIncomeReward != 0)
+      
+      setFormattedText($('.idle2'), Math.round(resources.farm() / resources.farmIncome()))
       
       $('.panel-life').toggleClass('panel-danger', resources.life() <= 1)
       $('.panel-life').toggleClass('panel-primary', resources.life() > 1)

@@ -47,7 +47,8 @@ quest = function(params = {}) {
         if (resources.level() % 10 == 0) {
           resources.life.value += 1
         }
-        resources.farm.value += this.reward()
+        resources.farm.value += this.reward() * farmReward
+        resources.farmIncome.value += this.reward() * farmIncomeReward
       } else {
         resources.life.value -= 1
         resources.activeLife.value -= 1

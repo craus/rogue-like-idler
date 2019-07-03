@@ -2,7 +2,10 @@
 quest = function(params = {}) {
   var result = params
   if (!result.difficulty) {
-    var power = gaussianRandom(0.1 * resources.level(), 0.5 * Math.pow(resources.level()+7, 0.25) - 0.1)
+    var power = gaussianRandom(
+			0.1 * resources.level(), 
+			0.5 * Math.pow(resources.level()+7, 0.25) - 0.1
+		)
     console.log("power", power)
     var baseQuality = 0
     
@@ -35,7 +38,7 @@ quest = function(params = {}) {
       return this.difficulty/(resources.farm()*Math.pow(resources.idle(), strengthIdlePower)+this.difficulty)
     },
     reward: function() {
-      return this.baseReward * Math.pow(resources.idle(), farmRewardIdlePower)
+      return this.baseReward * Math.pow(resources.idle(), farmRewardIdlePower) * questRewardMultiplier
     },
     choose: function() {
       if (resources.idle() < minIdleForQuest) {

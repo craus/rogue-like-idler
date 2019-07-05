@@ -45,18 +45,18 @@ var init = function() {
       }
     }
   }, 100)
-  
+
   window.onkeydown = function(e) {
-    console.log(e)
+    console.log("keydown", e)
     if (!input.contains(e.key)) {
       input.push(e.key)
     }
-    console.log(input)
+    //console.log(input)
   }
   window.onkeyup = function(e) {
-    console.log(e)
+    console.log("keyup", e)
     input.remove(e.key)
-    console.log(input)
+    //console.log(input)
   }
   
   game.paint()

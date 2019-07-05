@@ -37,16 +37,42 @@ function createRoguelike(params) {
     location.reload()
   }
   
+  startFarm = 1
+  startFarmIncome = 0
   minIdleForQuest = 1
   strengthIdlePower = 1
   farmRewardIdlePower = 0
   farmReward = 1
   farmIncomeReward = 0
   questRewardMultiplier = 1
+  questParams = {}
+
+  var warrior = () => {}
+  var trader = () => {
+    startFarm = 10
+    strengthIdlePower = 0
+    farmRewardIdlePower = 1
+  }
+  var builder = () => {
+    strengthIdlePower = 0
+    farmReward = 0
+    farmIncomeReward = 1
+    startFarmIncome = 1
+  }
+  var assassin = () => {
+    questParams.locked = function() {
+      return resources.idle() < minIdleForQuest || !this.ready()
+    }
+    questParams.win = function() {
+      return true
+    }
+  }
+
+  assassin()
   
   resources = {
-    farm: variable(1, 'farm', {formatter: large, incomeFormatter: x => noZero(signed(large(x)))}),
-    farmIncome: variable(0, 'farmIncome', {formatter: large}),
+    farm: variable(startFarm, 'farm', {formatter: large, incomeFormatter: x => noZero(signed(large(x)))}),
+    farmIncome: variable(startFarmIncome, 'farmIncome', {formatter: large}),
     farmMultiplier: variable(1, 'farmMultiplier', {formatter: large}),
     time: variable(0, 'time', {formatter: Format.time}),
     level: variable(0, 'level'),
@@ -60,6 +86,9 @@ function createRoguelike(params) {
   resources.farm.income = resources.farmIncome
   
   revive = function() {
+    if (resources.life() < 1) {
+      return
+    }
     resources.activeLife.value += 1
   }
   
@@ -69,10 +98,25 @@ function createRoguelike(params) {
     }
     quests = []
     for (var i = 0; i < 3; i++) {
-      console.log("quest", i)
-      quests.push(quest())
+      quests.push(quest(Object.assign({}, questParams)))
     }
   }
+
+  $("body").keydown(e => {
+    if (resources.activeLife() == 1) {
+      if (e.key == "ArrowLeft") {
+        quests[0].choose();
+      } else if (e.key == "ArrowUp") {
+        quests[1].choose();
+      } else if (e.key == "ArrowRight") {
+        quests[2].choose();
+      }
+    } else {
+      if (e.key == "ArrowUp") {
+        revive()
+      }
+    }
+  })
   
   if (!!savedata.quests) {
     quests = savedata.quests.map(q => quest(q))

@@ -23,8 +23,11 @@ quest = function(params = {}) {
     console.log("random quality", randomQuality)
     var quality = gaussianRandom(baseQuality, randomQuality)
     console.log("quality", quality)
-    result.difficulty = Math.pow(10, power)    
-    result.baseReward = Math.pow(10, quality + power)
+    result.difficulty = Math.pow(10, power)   
+    result.rewards = {
+      farm: Math.pow(10, quality + power) * 
+        resources.farmMultiplier()
+    }
   }
   
   var panel = instantiate('questSample')
@@ -38,7 +41,13 @@ quest = function(params = {}) {
       return this.difficulty/(resources.farm()*Math.pow(resources.idle(), strengthIdlePower)+this.difficulty)
     },
     reward: function() {
-      return this.baseReward * Math.pow(resources.idle(), farmRewardIdlePower) * questRewardMultiplier
+      return {
+        farm: this.rewards.farm * Math.pow(
+          resources.idle(), 
+          farmRewardIdlePower
+        ) * questRewardMultiplier,
+        farmMultiplier: this.rewards.farmMultiplier
+      }
     },
     choose: function() {
       if (resources.idle() < minIdleForQuest) {
@@ -50,8 +59,8 @@ quest = function(params = {}) {
         if (resources.level() % 10 == 0) {
           resources.life.value += 1
         }
-        resources.farm.value += this.reward() * farmReward
-        resources.farmIncome.value += this.reward() * farmIncomeReward
+        resources.farm.value += this.reward().farm * farmReward
+        resources.farmIncome.value += this.reward().farm * farmIncomeReward
       } else {
         resources.life.value -= 1
         resources.activeLife.value -= 1
@@ -64,7 +73,7 @@ quest = function(params = {}) {
     paint: function() {
       setFormattedText(panel.find('.deathChance'), Format.percent(result.deathChance(), 2))
       panel.find('.choose').toggleClass('disabled', resources.idle() < minIdleForQuest)
-      setFormattedText(panel.find('.reward'), large(this.reward()))
+      setFormattedText(panel.find('.reward'), large(this.reward().farm))
     },
     save: function() {
       savedata.quests.push(Object.assign({

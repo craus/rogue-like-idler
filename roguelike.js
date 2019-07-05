@@ -47,6 +47,7 @@ function createRoguelike(params) {
   resources = {
     farm: variable(1, 'farm', {formatter: large, incomeFormatter: x => noZero(signed(large(x)))}),
     farmIncome: variable(0, 'farmIncome', {formatter: large}),
+    farmMultiplier: variable(1, 'farmMultiplier', {formatter: large}),
     time: variable(0, 'time', {formatter: Format.time}),
     level: variable(0, 'level'),
     life: variable(3, 'life'),
@@ -99,6 +100,14 @@ function createRoguelike(params) {
       
       $('.panel-idle').toggleClass('panel-warning', resources.idle() <= minIdleForQuest)
       $('.panel-idle').toggleClass('panel-primary', resources.idle() > minIdleForQuest)
+      
+      var showFarmMultiplier = resources.farmMultiplier() > 1
+      
+      $('.farmColumn').toggleClass('col-sm-3', showFarmMultiplier)
+      $('.farmColumn').toggleClass('col-sm-4', !showFarmMultiplier)
+      $('.farmMultiplierColumn').toggle(showFarmMultiplier)
+      $('.idleColumn').toggleClass('col-sm-2', showFarmMultiplier)
+      $('.idleColumn').toggleClass('col-sm-4', !showFarmMultiplier)
       
       quests.each('paint')
 

@@ -90,7 +90,7 @@ characters:
     quest rewards yields farm income instead of farm
   assassin: 
     cannot die; 
-    quest can be attepted only with at least danger/farm idle time
+    quest can be attempted only if farm * idle > danger
   gambler: 
     cannot die; 
     quests are locked and thus cannot be attempted; 
@@ -98,9 +98,8 @@ characters:
 	tactician:
     cannot die;
     quests are locked and thus cannot be attepted;
-    each second, each quest unlocks with chance farm/(farm+danger);
+    each second, each quest unlocks for a second with chance farm/(farm+danger);
     you are given the exact predicted time of each quest unlocking;
-    having been unlocked, quest locks in 1 second
   scout:
     each second, receives a bit of information about quest winrates
   medician:

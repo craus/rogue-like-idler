@@ -39,7 +39,6 @@ function chances(p, q) {
   return p/(p+q)
 }
 function rndEvent(p,q=1-p) {
-  console.log('randoming with chance', chances(p, q))
   return Math.random() < chances(p, q)
 }
 function rndSplit(x, n) {

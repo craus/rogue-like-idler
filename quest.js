@@ -54,16 +54,15 @@ quest = function(params = {}) {
       return resources.idle() < minIdleForQuest
     },
     ready: function() {
-      return true
+      return this.unlocksIn() <= 0
+    },
+    unlocksIn: function() {
+      return 0
     },
     win: function() {
       return rndEvent(1-this.deathChance())
     },
-    choose: function() {
-      if (this.locked()) {
-        return
-      }
-      console.log("Choose", this.difficulty)
+    activate: function() {
       if (this.win()) {
         resources.level.value += 1
         if (resources.level() % 10 == 0) {
@@ -76,6 +75,12 @@ quest = function(params = {}) {
         resources.activeLife.value -= 1
         resources.lastDeathChance.value = this.deathChance()
       }
+    },
+    choose: function() {
+      if (this.locked()) {
+        return
+      }
+      this.activate()
       resources.idle.value = 0
       refreshQuests()
       game.paint()

@@ -91,6 +91,10 @@ characters:
   assassin: 
     cannot die; 
     quest can be attempted only if farm * idle > danger
+  rogue:
+  	cannot fail quest;
+  	spend life on quest equal to death chance;
+  	has extra (1-death chance) farm and levelup multiplier 
   gambler: 
     cannot die; 
     quests are locked and thus cannot be attempted; 

@@ -61,27 +61,41 @@ function createRoguelike(params) {
   }
   var assassin = () => {
     questParams = {
-      ready: function() {
-        return this.unlocksIn() < 0
-      },
       unlocksIn: function() {
-        return 10 * this.difficulty / resources.farm() - resources.idle()
+        return this.difficulty / resources.farm() - resources.idle()
       },
       deathChance: function() {
         return this.ready() ? 0 : 1
       }
     }
   }
+  var rogue = () => {
+    questParams = {
+      activate: function() {
+        resources.life.value -= this.deathChance()
+        resources.level.value += 1
+        if (resources.level() % 10 == 0) {
+          resources.life.value += 1
+        }
+        if (resources.life.value <= 0) {
+          resources.activeLife.value = 0
+        }
+        var farm = (1-this.deathChance()) * this.reward().farm
+        resources.farm.value += farm * farmReward
+        resources.farmIncome.value += farm * farmIncomeReward
+      }
+    }
+  }
 
-  assassin()
+  rogue()
   
   resources = {
     farm: variable(startFarm, 'farm', {formatter: large, incomeFormatter: x => noZero(signed(large(x)))}),
     farmIncome: variable(startFarmIncome, 'farmIncome', {formatter: large}),
     farmMultiplier: variable(1, 'farmMultiplier', {formatter: large}),
     time: variable(0, 'time', {formatter: Format.time}),
-    level: variable(0, 'level'),
-    life: variable(3, 'life'),
+    level: variable(0, 'level', {formatter: large}),
+    life: variable(3, 'life', {formatter: large}),
     activeLife: variable(1, 'activeLife'),
     idle: variable(1, 'idle'),
     lastDeathChance: variable(1, 'lastDeathChance', {formatter: x => Format.percent(x, 2)})

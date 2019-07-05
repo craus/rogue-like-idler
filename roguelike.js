@@ -60,11 +60,16 @@ function createRoguelike(params) {
     startFarmIncome = 1
   }
   var assassin = () => {
-    questParams.locked = function() {
-      return resources.idle() < minIdleForQuest || !this.ready()
-    }
-    questParams.win = function() {
-      return true
+    questParams = {
+      ready: function() {
+        return this.unlocksIn() < 0
+      },
+      unlocksIn: function() {
+        return 10 * this.difficulty / resources.farm() - resources.idle()
+      },
+      deathChance: function() {
+        return this.ready() ? 0 : 1
+      }
     }
   }
 
@@ -119,7 +124,7 @@ function createRoguelike(params) {
   })
   
   if (!!savedata.quests) {
-    quests = savedata.quests.map(q => quest(q))
+    quests = savedata.quests.map(q => quest(Object.assign({}, q, questParams)))
   } else {
     refreshQuests()
   }

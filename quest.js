@@ -54,10 +54,7 @@ quest = function(params = {}) {
       return resources.idle() < minIdleForQuest
     },
     ready: function() {
-      return resources.idle() * resources.farm() >= this.difficulty
-    },
-    unlocksIn: function() {
-      return this.difficulty / resources.farm() - resources.idle()
+      return true
     },
     win: function() {
       return rndEvent(1-this.deathChance())
@@ -84,8 +81,19 @@ quest = function(params = {}) {
       game.paint()
     },
     paint: function() {
-      setFormattedText(panel.find('.deathChance'), Format.percent(result.deathChance(), 2))
+      panel.find('.deathChanceLine').toggle(this.ready())
+      panel.find('.unlocksInLine').toggle(!this.ready())
+      setFormattedText(
+        panel.find('.deathChance'), 
+        Format.percent(this.deathChance(), 2)
+      )
+      setFormattedText(
+        panel.find('.unlocksIn'), 
+        Format.time(this.unlocksIn())
+      )
       panel.find('.choose').toggleClass('disabled', this.locked())
+      panel.find('.choose').toggleClass('btn-primary', this.ready())
+      panel.find('.choose').toggleClass('btn-danger', !this.ready())
       setFormattedText(panel.find('.reward'), large(this.reward().farm))
     },
     save: function() {

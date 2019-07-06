@@ -35,11 +35,16 @@ curses:
 	stun on death
 	stun on attempt
 	
-	
+permanents:	
+	+X start idle bonus
+	rewards multiplied by X idle power
+	X% chance cancel quest on death
+	+X life per second
+	+X life per level
+	+X% farm per second
+
 items:
-	[!] mulligan
 	double death check (AND)
-	[!] bubble: invulnerable next battle
 	x100 death check (OR); x100 reward
 	x100 danger, x10 reward
 	danger/10, reward/100
@@ -57,17 +62,15 @@ items:
 			limited max charges
 			lose previous charges when charge ability used
 			lose charges over time
-	[!] double idle time
-	[!] double farm
-	[!] double rewards
-	+X% farm per second
 	+X idle power 
-	+X start idle bonus
-	rewards multiplied by X idle power
-	X% chance cancel quest on death
-	+X life per second
-	+X life per level
 	predict quest
+	lock quest
+	+X idle time
+	duplicate item
+	steal reward
+	choose quest randomly, get small bonus
+	retry quest after fail
+	convert all farm into farm income
 	
 	
 superpowers

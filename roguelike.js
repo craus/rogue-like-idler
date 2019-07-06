@@ -25,8 +25,10 @@ function createRoguelike(params) {
     Object.values(resources).forEach(function(resource) {
       savedata[resource.id] = resource.value
     })
-    savedata.quests = []
-    quests.each('save')
+    savedata.quests = quests.map(q => q.save())
+    if (!!lastFailedQuest) {
+      savedata.lastFailedQuest = lastFailedQuest.save()
+    }
     savedata.realTime = timestamp || Date.now()
     localStorage[saveName] = JSON.stringify(savedata)
   } 
@@ -88,6 +90,17 @@ function createRoguelike(params) {
   }
 
   warrior()
+
+  refreshQuests = function() {
+    if (!!quests) {
+      quests.each('destroy')
+    }
+    quests = []
+    for (var i = 0; i < 3; i++) {
+      quests.push(quest(Object.assign({}, questParams)))
+    }
+    quests.each('paint')  
+  }
   
   resources = {
     farm: variable(startFarm, 'farm', {formatter: large, incomeFormatter: x => noZero(signed(large(x)))}),
@@ -100,7 +113,33 @@ function createRoguelike(params) {
     idle: variable(1, 'idle'),
     lastDeathChance: variable(1, 'lastDeathChance', {formatter: x => Format.percent(x, 2)})
   }
+  var resource = function(name, startValue) {
+    resources[name] = variable(startValue, name)
+    return resources[name]
+  }
+  var item = function(name, action) {
+    var result = resource(name, 0)
+    $('.btn.#{0}'.i(name)).click(() => {
+      if (result() < 1) {
+        return
+      }
+      result.value -= 1
+      action()
+    })
+  }
+
+  item('reroll', () => {
+    refreshQuests()
+    resources.idle.value = 0
+  })
+  item('bubble', () => {
+    quests.forEach(q => {
+      q.damage = 0
+    })
+  })
+
   quests = []
+  lastFailedQuest = null
 
   resources.farm.income = resources.farmIncome
   
@@ -111,16 +150,6 @@ function createRoguelike(params) {
     resources.activeLife.value += 1
   }
   
-  refreshQuests = function() {
-    if (!!quests) {
-      quests.each('destroy')
-    }
-    quests = []
-    for (var i = 0; i < 3; i++) {
-      quests.push(quest(Object.assign({}, questParams)))
-    }
-  }
-
   $("body").keydown(e => {
     if (resources.activeLife() == 1) {
       if (e.key == "ArrowLeft") {
@@ -142,7 +171,10 @@ function createRoguelike(params) {
   } else {
     refreshQuests()
   }
-  
+  if (!!savedata.lastFailedQuest) {
+    lastFailedQuest = quest(Object.assign({}, savedata.lastFailedQuest, questParams, {instantiate: false}))
+  }
+
   result = {
     paint: function() {
       debug.profile('paint')
@@ -173,6 +205,11 @@ function createRoguelike(params) {
       $('.idleColumn').toggleClass('col-sm-4', !showFarmMultiplier)
       
       quests.each('paint')
+      if (!!lastFailedQuest) {
+        setFormattedText($('.fail'), lastFailedQuest.failText())
+        setFormattedText($('.failed'), lastFailedQuest.failedText())
+        setFormattedText($('.continue'), lastFailedQuest.continueText())
+      }
 
       debug.unprofile('paint')
     },
@@ -193,5 +230,6 @@ function createRoguelike(params) {
       debug.unprofile('tick')
     }
   }
+  result.paint()
   return result
 }

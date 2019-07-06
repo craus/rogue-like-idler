@@ -1,11 +1,14 @@
 quest = function(params = {}) {
   var result = params
+  var powerRandom = function() {
+    return gaussianRandom(
+      0, 
+      0.5 * Math.pow(resources.level()+7, 0.25) - 0.1
+    )
+  }
   if (!result.difficulty) {
     var basePower = 0.1 * resources.level()
-    var randPower = gaussianRandom(
-			0, 
-			0.5 * Math.pow(resources.level()+7, 0.25) - 0.1
-		)
+    var randPower = powerRandom()
     var power = basePower + randPower
 
     var baseQuality = 0
@@ -26,11 +29,15 @@ quest = function(params = {}) {
 
     //console.log("quality", quality)
     result.difficulty = Math.pow(10, power)   
-    if (rndEvent(0.1)) {
+    if (randPower > powerRandom() && rndEvent(0.1)) {
       result.reward = reward('life')
     } else if (rndEvent(0.0)) {
       result.reward = reward('farmMultiplier', {
         multiplier: Math.pow(10, randPower/100)
+      })
+    } else if (randPower > powerRandom() && rndEvent(0.3)) {
+      result.reward = reward('item', {
+        itemType: ['bubble', 'reroll'].rnd()
       })
     } else {
       result.reward = reward('farm', {
@@ -49,8 +56,18 @@ quest = function(params = {}) {
   }
   
   result = Object.assign({
+    damage: 1, 
     deathChance: function() {
       return this.difficulty/(resources.farm()*Math.pow(resources.idle(), strengthIdlePower)+this.difficulty)
+    },
+    failText: function() {
+      return this.damage > 0 ? "death" : "fail"
+    },
+    failedText: function() {
+      return this.damage > 0 ? "DEAD" : "FAILED"
+    },
+    continueText: function() {
+      return this.damage > 0 ? "Revive" : "Continue"
     },
     locked: function() {
       return resources.idle() < minIdleForQuest
@@ -69,9 +86,10 @@ quest = function(params = {}) {
         resources.level.value += 1
         this.reward.get()
       } else {
-        resources.life.value -= 1
+        resources.life.value -= this.damage
         resources.activeLife.value -= 1
         resources.lastDeathChance.value = this.deathChance()
+        lastFailedQuest = this
       }
     },
     choose: function() {
@@ -91,6 +109,10 @@ quest = function(params = {}) {
         Format.percent(this.deathChance(), 2)
       )
       setFormattedText(
+        panel.find('.failName'), 
+        this.damage == 1 ? 'Death' : 'Fail'
+      )
+      setFormattedText(
         panel.find('.unlocksIn'), 
         Format.time(this.unlocksIn())
       )
@@ -100,8 +122,7 @@ quest = function(params = {}) {
       setFormattedText(panel.find('.reward'), this.reward.description())
     },
     save: function() {
-      savedata.quests.push(Object.assign({
-      }, _.omit(this)))
+      return this
     },
     destroy: function() {
       panel.remove()

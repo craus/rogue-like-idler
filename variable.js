@@ -31,7 +31,7 @@ variable = function(initialValue, id, params) {
       var variable = this
       setFormattedText($('.#{0}.value, .#{0} .value'.i(id)), formatter(variable()))
       setFormattedText($('.#{0}.income, .#{0} .income'.i(id)), incomeFormatter(this.income()))
-      $('.#{0}.value.hideIfZero, .#{0} .value .hideIfZero'.i(id)).toggle(this.value > 0)
+      $('.#{0}.hideIfZero, .#{0} .hideIfZero'.i(id)).toggle(this.value > 0)
     },
     tick: function(deltaTime) {
       this.value += this.income() * deltaTime

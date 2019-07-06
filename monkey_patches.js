@@ -32,6 +32,19 @@ Array.prototype.contains = function(x) {
   return this.indexOf(x) != -1
 }
 
+Array.prototype.rnd = function(x, w) {
+  w = w || ((el) => 1)
+  var result = null
+  var totalWeight = 0
+  for (var i = 0; i < this.length; i++) {
+    if (rndEvent(w(this[i]), totalWeight)) {
+      result = this[i]
+    }
+    totalWeight += w(this[i])
+  }
+  return result
+}
+
 Array.prototype.remove = function(x) {
   var ind = this.indexOf(x)
   if (ind != -1) {

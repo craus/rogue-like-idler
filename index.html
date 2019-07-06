@@ -123,7 +123,7 @@
             <div class="panel panel-default panel-readiness">   
               <div class="panel-body big population">
                 <div class="line">Danger: <span class="danger"></span></div>
-                <div class="line deathChanceLine">Death chance: <span class="deathChance"></span></div>
+                <div class="line deathChanceLine"><span class=failName>Death</span> chance: <span class="deathChance"></span></div>
                 <div class="line unlocksInLine">Unlocks in: <span class="unlocksIn"></span></div>
                 <div class="line">
                   Reward: <span class="reward"></span>
@@ -133,17 +133,21 @@
             </div>   
           </div>
         </div> 
+        <div class="row centered items alive">
+          <button type="button" class="btn btn-primary reroll hideIfZero">Reroll (<span class="value">?</span>)</button> 
+          <button type="button" class="btn btn-primary bubble hideIfZero">Bubble (<span class="value">?</span>)</button> 
+        </div>
         <div class="row centered dead">
           <div class="col-sm-12">    
             <div class="panel panel-danger panel-readiness">   
               <div class="panel-body big">
-                YOU DEAD
+                YOU <span class="failed">DEAD</span>
               </div>          
               <div class="panel-body">
-                Chance of death was <span class="lastDeathChance value"></span>
+                Chance of <span class="fail">death</span> was <span class="lastDeathChance value"></span>
               </div>        
               <div class="panel-body big lifePositive">
-                <button class="btn btn-warning" onclick="revive()">Revive (<span class="life value">?</span> remains)</button>
+                <button class="btn btn-warning" onclick="revive()"><span class="continue">Revive</span> (<span class="life value">?</span>)</button>
               </div>        
               <div class="panel-body big lifeNonPositive">
                 <button class="btn btn-danger" onclick="wipeSave()">Restart</button>

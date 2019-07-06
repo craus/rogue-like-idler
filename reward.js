@@ -35,6 +35,17 @@ rewardByType = function(type, params) {
       }, 
     }
   }
+  if (type == "item") {
+    return {
+      get: function() {
+        resources[this.itemType].value += this.value()
+      },
+      value: v(1),
+      description: function() {
+        return this.itemType
+      }, 
+    }
+  }
   if (type == "farmMultiplier") {
     return {
       get: function() {

@@ -1,3 +1,12 @@
+v = function(value) {
+  var result = () => {
+    return result.value
+  }
+  return Object.assign(result, {
+    value: value
+  })
+}
+
 variable = function(initialValue, id, params) {
   if (params == undefined) {
     params = {}
@@ -8,11 +17,8 @@ variable = function(initialValue, id, params) {
   }
   var formatter = params.formatter || (function(x) { return large(Math.floor(x+eps)) })
   var incomeFormatter = params.incomeFormatter || (function(x) { return noZero(signed(large(Math.floor(x+eps)))) })
-  var result = () => {
-    return result.value
-  }
+  var result = v(initialValue)
   return Object.assign(result, {
-    value: initialValue, 
     id: id,
     income: income,
     backup: function() {

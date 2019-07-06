@@ -87,7 +87,7 @@ function createRoguelike(params) {
     }
   }
 
-  rogue()
+  warrior()
   
   resources = {
     farm: variable(startFarm, 'farm', {formatter: large, incomeFormatter: x => noZero(signed(large(x)))}),

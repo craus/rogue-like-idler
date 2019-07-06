@@ -46,11 +46,11 @@ permanents:
 items:
 	double death check (AND)
 	x100 death check (OR); x100 reward
-	x100 danger, x10 reward
-	danger/10, reward/100
+	* x100 danger, x10 reward
+	* danger/10, reward/100
 	echo next battle
-	[!] back N levels
-	[!] forward N levels
+	* back N levels
+	* forward N levels
 	win next battle 100%; no reward (same as forward 1 level?)
 	idle accumulator
 		abilities
@@ -67,11 +67,13 @@ items:
 	lock quest
 	+X idle time
 	duplicate item
-	steal reward
+	* steal reward
 	choose quest randomly, get small bonus
 	retry quest after fail
 	convert all farm into farm income
-	
+	convert fail risk into expected value
+	saveload
+	-X% death chance next battle
 	
 superpowers
 	Coil power: split reality into two. Play both in parallel. Destroy one at will at any moment.

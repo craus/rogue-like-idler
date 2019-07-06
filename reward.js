@@ -24,6 +24,16 @@ rewardByType = function(type, params) {
       }
     }
   } 
+  if (type == "empty") {
+    return {
+      get: function() {
+      },
+      value: v(0),
+      description: function() {
+        return "nothing" 
+      }, 
+    }
+  }
   if (type == "life") {
     return {
       get: function() {

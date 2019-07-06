@@ -57,17 +57,18 @@ quest = function(params = {}) {
   
   result = Object.assign({
     damage: 1, 
+    lastDamage: 1,
     deathChance: function() {
       return this.difficulty/(resources.farm()*Math.pow(resources.idle(), strengthIdlePower)+this.difficulty)
     },
     failText: function() {
-      return this.damage > 0 ? "death" : "fail"
+      return this.lastDamage > 0 ? "death" : "fail"
     },
     failedText: function() {
-      return this.damage > 0 ? "DEAD" : "FAILED"
+      return this.lastDamage > 0 ? "DEAD" : "FAILED"
     },
     continueText: function() {
-      return this.damage > 0 ? "Revive" : "Continue"
+      return this.lastDamage > 0 ? "Revive" : "Continue"
     },
     locked: function() {
       return resources.idle() < minIdleForQuest
@@ -88,22 +89,41 @@ quest = function(params = {}) {
       } else {
         resources.life.value -= this.damage
         resources.activeLife.value -= 1
+        this.lastDamage = this.damage
         resources.lastDeathChance.value = this.deathChance()
         lastFailedQuest = this
       }
+      resources.idle.value = 0
+      refreshQuests()
+    },
+    steal: function() {
+      if (this.win()) {
+        this.reward.get()
+        this.reward = reward('empty')
+      } else {
+        resources.activeLife.value -= 1
+        this.lastDamage = 0
+        resources.lastDeathChance.value = this.deathChance()
+        lastFailedQuest = this
+      }
+      resources.activeTheft.value = 0
+      resources.idle.value = 0
     },
     choose: function() {
       if (this.locked()) {
         return
       }
-      this.activate()
-      resources.idle.value = 0
-      refreshQuests()
+      if (resources.activeTheft() == 0) {
+        this.activate()
+      } else {
+        this.steal()
+      }
       game.paint()
     },
     paint: function() {
       panel.find('.deathChanceLine').toggle(this.ready())
       panel.find('.unlocksInLine').toggle(!this.ready())
+      setFormattedText(panel.find('.danger'), large(result.difficulty))
       setFormattedText(
         panel.find('.deathChance'), 
         Format.percent(this.deathChance(), 2)
@@ -116,9 +136,11 @@ quest = function(params = {}) {
         panel.find('.unlocksIn'), 
         Format.time(this.unlocksIn())
       )
+      panel.find('.choose').toggleClass('btn-warning', theftMode())
       panel.find('.choose').toggleClass('disabled', this.locked())
-      panel.find('.choose').toggleClass('btn-primary', this.ready())
-      panel.find('.choose').toggleClass('btn-danger', !this.ready())
+      panel.find('.choose').toggleClass('btn-primary', !theftMode() && this.ready())
+      panel.find('.choose').toggleClass('btn-danger', !theftMode() && !this.ready())
+      setFormattedText(panel.find('.choose'), resources.activeTheft() == 0 ? 'Choose' : 'Steal')
       setFormattedText(panel.find('.reward'), this.reward.description())
     },
     save: function() {

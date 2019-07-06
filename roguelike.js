@@ -110,8 +110,12 @@ function createRoguelike(params) {
     level: variable(0, 'level', {formatter: large}),
     life: variable(3, 'life', {formatter: large}),
     activeLife: variable(1, 'activeLife'),
+    activeTheft: variable(0, 'activeTheft'),
     idle: variable(1, 'idle'),
     lastDeathChance: variable(1, 'lastDeathChance', {formatter: x => Format.percent(x, 2)})
+  }
+  theftMode = function() {
+    return resources.activeTheft() > 0
   }
   var resource = function(id, startValue) {
     resources[id] = variable(startValue, id)
@@ -158,6 +162,36 @@ function createRoguelike(params) {
       }
     })
   })
+  item('shortcut', 'Shortcut', () => {
+    resources.level.value += 5
+    refreshQuests()
+    resources.idle.value = 0
+  })
+  item('backdoor', 'Backdoor', () => {
+    resources.level.value -= 5
+    refreshQuests()
+    resources.idle.value = 0
+  })
+  item('shrink', 'Shrink', () => {
+    quests.forEach(q => {
+      if (q.reward.type == 'farm') {
+        q.reward.amount /= 10
+        q.difficulty /= 10
+      }
+    })
+  })
+  item('enlarge', 'Enlarge', () => {
+    quests.forEach(q => {
+      if (q.reward.type == 'farm') {
+        q.reward.amount *= 10
+        q.difficulty *= 10
+      }
+    })
+  })
+  item('theft', 'Theft', () => {
+    resources.activeTheft.value = 1
+  })
+
 
   quests = []
   lastFailedQuest = null

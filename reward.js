@@ -42,7 +42,7 @@ rewardByType = function(type, params) {
       },
       value: v(1),
       description: function() {
-        return this.itemType
+        return resources[this.itemType].name.toLowerCase()
       }, 
     }
   }

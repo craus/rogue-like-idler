@@ -37,7 +37,7 @@ quest = function(params = {}) {
       })
     } else if (randPower > powerRandom() && rndEvent(0.3)) {
       result.reward = reward('item', {
-        itemType: ['bubble', 'reroll'].rnd()
+        itemType: itemTypes.rnd()
       })
     } else {
       result.reward = reward('farm', {

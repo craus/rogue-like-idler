@@ -113,28 +113,49 @@ function createRoguelike(params) {
     idle: variable(1, 'idle'),
     lastDeathChance: variable(1, 'lastDeathChance', {formatter: x => Format.percent(x, 2)})
   }
-  var resource = function(name, startValue) {
-    resources[name] = variable(startValue, name)
-    return resources[name]
+  var resource = function(id, startValue) {
+    resources[id] = variable(startValue, id)
+    return resources[id]
   }
-  var item = function(name, action) {
-    var result = resource(name, 0)
-    $('.btn.#{0}'.i(name)).click(() => {
+  itemTypes = []
+  var item = function(id, name, action) {
+    itemTypes.push(id)
+    var result = resource(id, 0)
+    result.name = name
+
+    var button = instantiate('itemButtonSample')
+    $('.items').append(button).append(' ')
+    button.addClass(id)
+    $('.btn.#{0}'.i(id)).click(() => {
       if (result() < 1) {
         return
       }
       result.value -= 1
       action()
     })
+    return result
   }
 
-  item('reroll', () => {
+  item('reroll', 'Reroll', () => {
     refreshQuests()
     resources.idle.value = 0
   })
-  item('bubble', () => {
+  item('bubble', 'Bubble', () => {
     quests.forEach(q => {
       q.damage = 0
+    })
+  })
+  item('doubleIdle', 'Charge', () => {
+    resources.idle.value *= 2
+  })
+  item('doubleFarm', 'Training', () => {
+    resources.farm.value *= 2
+  })
+  item('doubleRewards', 'Midas', () => {    
+    quests.forEach(q => {
+      if (q.reward.type == 'farm') {
+        q.reward.amount *= 2
+      }
     })
   })
 
@@ -163,6 +184,9 @@ function createRoguelike(params) {
       if (e.key == "ArrowUp") {
         revive()
       }
+    }
+    if (e.key == "R") {
+      wipeSave()
     }
   })
   

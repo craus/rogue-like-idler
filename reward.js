@@ -22,7 +22,8 @@ rewardByType = function(params) {
           questRewardMultiplier
       }
     }
-  } else {
+  } 
+  if (params.type == "life") {
     return {
       get: function() {
         resources.life.value += this.value()
@@ -33,4 +34,5 @@ rewardByType = function(params) {
       }, 
     }
   }
+  return null
 }

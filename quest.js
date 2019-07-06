@@ -28,15 +28,9 @@ quest = function(params = {}) {
         type: "farm", amount: Math.pow(10, quality + power)
       })
     } else {
-      result.reward = {
-        get: function() {
-          resources.life.value += this.value()
-        },
-        value: v(1),
-        description: function() {
-          return "extra life" 
-        }, 
-      }     
+      result.reward = reward({
+        type: "life"
+      })
     }
   } else {
     result.reward = reward(result.reward)

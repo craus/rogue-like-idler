@@ -1,10 +1,13 @@
 quest = function(params = {}) {
   var result = params
   if (!result.difficulty) {
-    var power = gaussianRandom(
-			0.1 * resources.level(), 
+    var basePower = 0.1 * resources.level()
+    var randPower = gaussianRandom(
+			0, 
 			0.5 * Math.pow(resources.level()+7, 0.25) - 0.1
 		)
+    var power = basePower + randPower
+
     var baseQuality = 0
     
     baseQuality -= 2*power/10
@@ -23,17 +26,20 @@ quest = function(params = {}) {
 
     //console.log("quality", quality)
     result.difficulty = Math.pow(10, power)   
-    if (rndEvent(0.5)) {
-      result.reward = reward({
-        type: "farm", amount: Math.pow(10, quality + power)
+    if (rndEvent(0.1)) {
+      result.reward = reward('life')
+    } else if (rndEvent(0.0)) {
+      result.reward = reward('farmMultiplier', {
+        multiplier: Math.pow(10, randPower/100)
       })
     } else {
-      result.reward = reward({
-        type: "life"
+      result.reward = reward('farm', {
+        amount: Math.pow(10, quality + power) * 
+          resources.farmMultiplier()
       })
     }
   } else {
-    result.reward = reward(result.reward)
+    result.reward = reward(result.reward.type, result.reward)
   }
   
   var panel = instantiate('questSample')

@@ -1,9 +1,11 @@
-reward = function(params) {
-  return Object.assign(rewardByType(params), params)
+reward = function(type, params) {
+  params = params || {}
+  return Object.assign(rewardByType(type, params), params)
 }
 
-rewardByType = function(params) {
-  if (params.type == "farm") {
+rewardByType = function(type, params) {
+  params.type = type
+  if (type == "farm") {
     return {
       get: function() {
         resources.farm.value += this.value() * farmReward
@@ -14,7 +16,6 @@ rewardByType = function(params) {
       }, 
       value: function() {
         return this.amount * 
-          resources.farmMultiplier() *
           Math.pow(
             resources.idle(), 
             farmRewardIdlePower
@@ -23,7 +24,7 @@ rewardByType = function(params) {
       }
     }
   } 
-  if (params.type == "life") {
+  if (type == "life") {
     return {
       get: function() {
         resources.life.value += this.value()
@@ -31,6 +32,19 @@ rewardByType = function(params) {
       value: v(1),
       description: function() {
         return "extra life" 
+      }, 
+    }
+  }
+  if (type == "farmMultiplier") {
+    return {
+      get: function() {
+        resources.farmMultiplier.value *= this.value()
+      },
+      value: function() {
+        return this.multiplier
+      },
+      description: function() {
+        return "x#{0} farm multiplier".i(large(this.value()))
       }, 
     }
   }

@@ -107,12 +107,12 @@
             </div>   
           </div>
           <div class="col-sm-2">       
-            <div class="panel panel-primary panel-life">
+            <div class="panel panel-primary panel-life life">
               <div class="panel-heading big left">
                 Life 
               </div>
               <div class="panel-body big left">
-                <span class="life value">?</span> 
+                <span class="value">?</span><span class="showWhenLimited">/<span class="maxValue">?</span></span>
               </div>
             </div>   
           </div>
@@ -126,7 +126,11 @@
                 <div class="line deathChanceLine"><span class=failName>Death</span> chance: <span class="deathChance"></span></div>
                 <div class="line unlocksInLine">Unlocks in: <span class="unlocksIn"></span></div>
                 <div class="line">
-                  Reward: <span class="reward"></span>
+                  Reward: 
+                  <span class="reward"></span> 
+                  <span class="itemType showWhenLimited">
+                    (full)
+                  </span>
                 </div>
                 <button type="button" class="btn btn-primary choose">Choose</button> 
               </div>
@@ -135,7 +139,7 @@
         </div> 
         <div class="row centered items alive">
           <button type="button" class="btn btn-primary hideIfZero itemButtonSample hidden">
-            <span class="name">?</span> (<span class="value">?</span>)
+            <span class="name">?</span> <span class="limit">(<span class="value">?</span>)</span>
           </button> 
         </div>
         <div class="row centered dead">

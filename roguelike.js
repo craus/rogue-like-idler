@@ -23,7 +23,7 @@ function createRoguelike(params) {
     }
     savedata = {} 
     Object.values(resources).forEach(function(resource) {
-      savedata[resource.id] = resource.value
+      savedata[resource.id] = resource.save()
     })
     savedata.quests = quests.map(q => q.save())
     if (!!lastFailedQuest) {
@@ -108,7 +108,7 @@ function createRoguelike(params) {
     farmMultiplier: variable(1, 'farmMultiplier', {formatter: large}),
     time: variable(0, 'time', {formatter: Format.time}),
     level: variable(0, 'level', {formatter: large}),
-    life: variable(3, 'life', {formatter: large}),
+    life: variable(3, 'life', {formatter: large, maxValue: 10, name: 'extra life'}),
     activeLife: variable(1, 'activeLife'),
     activeTheft: variable(0, 'activeTheft'),
     idle: variable(1, 'idle'),
@@ -126,6 +126,7 @@ function createRoguelike(params) {
     itemTypes.push(id)
     var result = resource(id, 0)
     result.name = name
+    result.maxValue = 3
 
     var button = instantiate('itemButtonSample')
     $('.items').append(button).append(' ')

@@ -30,7 +30,9 @@ quest = function(params = {}) {
     //console.log("quality", quality)
     result.difficulty = Math.pow(10, power)   
     if (randPower > powerRandom() && rndEvent(0.1)) {
-      result.reward = reward('life')
+      result.reward = reward('item', {
+        itemType: 'life'
+      })
     } else if (rndEvent(0.0)) {
       result.reward = reward('farmMultiplier', {
         multiplier: Math.pow(10, randPower/100)
@@ -142,6 +144,7 @@ quest = function(params = {}) {
       panel.find('.choose').toggleClass('btn-danger', !theftMode() && !this.ready())
       setFormattedText(panel.find('.choose'), resources.activeTheft() == 0 ? 'Choose' : 'Steal')
       setFormattedText(panel.find('.reward'), this.reward.description())
+
     },
     save: function() {
       return this
@@ -154,6 +157,10 @@ quest = function(params = {}) {
   setFormattedText(panel.find('.danger'), large(result.difficulty))
   setFormattedText(panel.find('.deathChance'), Format.percent(result.deathChance(), 2))
   panel.find('.choose').click(() => result.choose())
-
+  if (!!result.reward.itemType) {
+    panel.find('.itemType').addClass(result.reward.itemType)
+  } else {
+    panel.find('.itemType').hide()
+  }
   return result
 } 

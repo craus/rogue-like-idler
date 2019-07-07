@@ -34,17 +34,6 @@ rewardByType = function(type, params) {
       }, 
     }
   }
-  if (type == "life") {
-    return {
-      get: function() {
-        resources.life.value += this.value()
-      },
-      value: v(1),
-      description: function() {
-        return "extra life" 
-      }, 
-    }
-  }
   if (type == "item") {
     return {
       get: function() {

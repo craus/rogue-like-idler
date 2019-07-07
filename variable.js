@@ -28,15 +28,31 @@ variable = function(initialValue, id, params) {
     restore: function() {
       this.value = this.backupValue
     },
+    limited: function() {
+      return !!this.maxValue && this.value == this.maxValue
+    },
     paint: function() {
+      this.check()
       var variable = this
       setFormattedText($('.#{0}.value, .#{0} .value'.i(id)), formatter(variable()))
+      setFormattedText($('.#{0}.maxValue, .#{0} .maxValue'.i(id)), formatter(this.maxValue))
       setFormattedText($('.#{0}.name, .#{0} .name'.i(id)), this.name)
+      $('.#{0}.limit, .#{0} .limit'.i(id)).toggleClass('limited', this.limited())
+      $('.#{0}.showWhenLimited, .#{0} .showWhenLimited'.i(id)).toggle(this.limited())
       setFormattedText($('.#{0}.income, .#{0} .income'.i(id)), incomeFormatter(this.income()))
       $('.#{0}.hideIfZero, .#{0} .hideIfZero'.i(id)).toggle(this.value > 0)
     },
     tick: function(deltaTime) {
       this.value += this.income() * deltaTime
+    },
+    check: function() {
+      if (!!this.maxValue && this.value > this.maxValue) {
+        this.value = this.maxValue;
+      }
+    },
+    save: function() {
+      this.check()
+      return this.value
     }
   }, params)
 }  

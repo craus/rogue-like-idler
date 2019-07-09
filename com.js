@@ -188,6 +188,9 @@ noSmall = function(x) {
   return Math.abs(x) < eps ? 0 : x
 }
 const Format = {
+  integer: function(x) {
+    return large(Math.floor(x+eps))
+  },
   round: function(x, s) {
     s = s || 0
     p = Math.pow(10, s)

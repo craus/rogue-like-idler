@@ -12,16 +12,20 @@ variable = function(initialValue, id, params) {
   if (params == undefined) {
     params = {}
   }
+  params.name = params.name || id
   var income = params.income || (() => 0)
   if (savedata[id] != undefined) {
     initialValue = savedata[id]
   }
-  var formatter = params.formatter || (function(x) { return large(Math.floor(x+eps)) })
+  var formatter = params.formatter || Format.integer
   var incomeFormatter = params.incomeFormatter || (function(x) { return noZero(signed(large(Math.floor(x+eps)))) })
   var result = v(initialValue)
   return Object.assign(result, {
     id: id,
     income: income,
+    format: function() {
+      return formatter(this.value)
+    },
     backup: function() {
       this.backupValue = this.value
     },
@@ -33,8 +37,7 @@ variable = function(initialValue, id, params) {
     },
     paint: function() {
       this.check()
-      var variable = this
-      setFormattedText($('.#{0}.value, .#{0} .value'.i(id)), formatter(variable()))
+      setFormattedText($('.#{0}.value, .#{0} .value'.i(id)), this.format())
       setFormattedText($('.#{0}.maxValue, .#{0} .maxValue'.i(id)), formatter(this.maxValue))
       setFormattedText($('.#{0}.name, .#{0} .name'.i(id)), this.name)
       $('.#{0}.limit, .#{0} .limit'.i(id)).toggleClass('limited', this.limited())

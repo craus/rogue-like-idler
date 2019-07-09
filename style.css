@@ -10,9 +10,10 @@
 .btn {
   outline: none
 }
-.btn.disabled.nohover, .btn[disabled].nohover {
+.btn.disabled, .btn[disabled] {
   cursor: default;
-  outline: none
+  outline: none;
+  pointer-events: none;
 }
 .centered {
   text-align: center
@@ -53,4 +54,14 @@ border-color: #3ab68b;
 .label-wisdom {
 background: #ca950f; color: #fff; }
 
+.btn-energy:not(:disabled):not(.disabled) {
+  color: #212529;
+  background-color: #D1A933;
+  border-color: #ffc107;
+}
 
+.btn-energy:hover:not(:disabled):not(.disabled) {
+  color: #212529;
+  background-color: #e0a800;
+  border-color: #d39e00;
+}

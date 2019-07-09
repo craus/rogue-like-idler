@@ -39,58 +39,6 @@ function createRoguelike(params) {
     location.reload()
   }
   
-  startFarm = 1
-  startFarmIncome = 0
-  minIdleForQuest = 1
-  strengthIdlePower = 1
-  farmRewardIdlePower = 0
-  farmReward = 1
-  farmIncomeReward = 0
-  questRewardMultiplier = 1
-  questParams = {}
-
-  var warrior = () => {}
-  var trader = () => {
-    startFarm = 10
-    strengthIdlePower = 0
-    farmRewardIdlePower = 1
-  }
-  var builder = () => {
-    strengthIdlePower = 0
-    farmReward = 0
-    farmIncomeReward = 1
-    startFarmIncome = 1
-  }
-  var assassin = () => {
-    questParams = {
-      unlocksIn: function() {
-        return this.difficulty / resources.farm() - resources.idle()
-      },
-      deathChance: function() {
-        return this.ready() ? 0 : 1
-      }
-    }
-  }
-  var rogue = () => {
-    questParams = {
-      activate: function() {
-        resources.life.value -= this.deathChance()
-        resources.level.value += 1
-        if (resources.level() % 10 == 0) {
-          resources.life.value += 1
-        }
-        if (resources.life.value <= 0) {
-          resources.activeLife.value = 0
-        }
-        var farm = (1-this.deathChance()) * this.reward().farm
-        resources.farm.value += farm * farmReward
-        resources.farmIncome.value += farm * farmIncomeReward
-      }
-    }
-  }
-
-  warrior()
-
   refreshQuests = function() {
     if (!!quests) {
       quests.each('destroy')
@@ -102,102 +50,16 @@ function createRoguelike(params) {
     quests.each('paint')  
   }
   
-  resources = {
-    farm: variable(startFarm, 'farm', {formatter: large, incomeFormatter: x => noZero(signed(large(x)))}),
-    farmIncome: variable(startFarmIncome, 'farmIncome', {formatter: large}),
-    farmMultiplier: variable(1, 'farmMultiplier', {formatter: large}),
-    time: variable(0, 'time', {formatter: Format.time}),
-    level: variable(0, 'level', {formatter: large}),
-    life: variable(3, 'life', {formatter: large, maxValue: 10, name: 'extra life'}),
-    activeLife: variable(1, 'activeLife'),
-    activeTheft: variable(0, 'activeTheft'),
-    idle: variable(1, 'idle'),
-    lastDeathChance: variable(1, 'lastDeathChance', {formatter: x => Format.percent(x, 2)})
+  characters()
+  currentCharacter()
+  resources()
+  items()
+  if (!!currentCharacter.after) {
+    currentCharacter.after()
   }
-  theftMode = function() {
-    return resources.activeTheft() > 0
-  }
-  var resource = function(id, startValue) {
-    resources[id] = variable(startValue, id)
-    return resources[id]
-  }
-  itemTypes = []
-  var item = function(id, name, action) {
-    itemTypes.push(id)
-    var result = resource(id, 0)
-    result.name = name
-    result.maxValue = 3
-
-    var button = instantiate('itemButtonSample')
-    $('.items').append(button).append(' ')
-    button.addClass(id)
-    $('.btn.#{0}'.i(id)).click(() => {
-      if (result() < 1) {
-        return
-      }
-      result.value -= 1
-      action()
-    })
-    return result
-  }
-
-  item('reroll', 'Reroll', () => {
-    refreshQuests()
-    resources.idle.value = 0
-  })
-  item('bubble', 'Bubble', () => {
-    quests.forEach(q => {
-      q.damage = 0
-    })
-  })
-  item('doubleIdle', 'Charge', () => {
-    resources.idle.value *= 2
-  })
-  item('doubleFarm', 'Training', () => {
-    resources.farm.value *= 2
-  })
-  item('doubleRewards', 'Midas', () => {    
-    quests.forEach(q => {
-      if (q.reward.type == 'farm') {
-        q.reward.amount *= 2
-      }
-    })
-  })
-  item('shortcut', 'Shortcut', () => {
-    resources.level.value += 5
-    refreshQuests()
-    resources.idle.value = 0
-  })
-  item('backdoor', 'Backdoor', () => {
-    resources.level.value -= 5
-    refreshQuests()
-    resources.idle.value = 0
-  })
-  item('shrink', 'Shrink', () => {
-    quests.forEach(q => {
-      if (q.reward.type == 'farm') {
-        q.reward.amount /= 10
-        q.difficulty /= 10
-      }
-    })
-  })
-  item('enlarge', 'Enlarge', () => {
-    quests.forEach(q => {
-      if (q.reward.type == 'farm') {
-        q.reward.amount *= 10
-        q.difficulty *= 10
-      }
-    })
-  })
-  item('theft', 'Theft', () => {
-    resources.activeTheft.value = 1
-  })
-
 
   quests = []
   lastFailedQuest = null
-
-  resources.farm.income = resources.farmIncome
   
   revive = function() {
     if (resources.life() < 1) {
@@ -220,7 +82,7 @@ function createRoguelike(params) {
         revive()
       }
     }
-    if (e.key == "R") {
+    if (e.originalEvent.code == "KeyR" && e.shiftKey) {
       wipeSave()
     }
   })
@@ -233,6 +95,18 @@ function createRoguelike(params) {
   if (!!savedata.lastFailedQuest) {
     lastFailedQuest = quest(Object.assign({}, savedata.lastFailedQuest, questParams, {instantiate: false}))
   }
+
+
+  $('.power').each(function() {
+    $(this).click(() => {
+      var value = $(this).data('value')
+      if (resources.energy() < value) {
+        return
+      }
+      resources.energy.value -= value
+      resources.idle.value += value
+    })
+  })
 
   result = {
     paint: function() {
@@ -252,8 +126,8 @@ function createRoguelike(params) {
       $('.panel-life').toggleClass('panel-danger', resources.life() <= 1)
       $('.panel-life').toggleClass('panel-primary', resources.life() > 1)
       
-      $('.panel-idle').toggleClass('panel-warning', resources.idle() <= minIdleForQuest)
-      $('.panel-idle').toggleClass('panel-primary', resources.idle() > minIdleForQuest)
+      $('.lockWarn').toggleClass('panel-warning', controlsLocked())
+      $('.lockWarn').toggleClass('panel-primary', !controlsLocked())
       
       var showFarmMultiplier = resources.farmMultiplier() > 1
       
@@ -261,7 +135,14 @@ function createRoguelike(params) {
       $('.farmColumn').toggleClass('col-sm-4', !showFarmMultiplier)
       $('.farmMultiplierColumn').toggle(showFarmMultiplier)
       $('.idleColumn').toggleClass('col-sm-2', showFarmMultiplier)
-      $('.idleColumn').toggleClass('col-sm-4', !showFarmMultiplier)
+      $('.idleColumn').toggleClass('col-sm-2', !showFarmMultiplier)
+      
+      setFormattedText($('.idle2'), Math.round(resources.farm() / resources.farmIncome()))
+
+      $('.power').each(function() {
+        $(this).toggleClass('disabled', resources.energy() < $(this).data('value'))
+        setFormattedText($(".value", this), $(this).data('value'))
+      })
       
       quests.each('paint')
       if (!!lastFailedQuest) {
@@ -277,11 +158,9 @@ function createRoguelike(params) {
       var currentTime = Date.now()
       var deltaTime = (currentTime - savedata.realTime) / 1000
       
-      resources.idle.value += deltaTime
       if (resources.activeLife() < 1) {
-        resources.idle.value = 0
+        resources.idle.reset()
       }
-      resources.time.value += deltaTime
 
       Object.values(resources).each('tick', deltaTime)
       

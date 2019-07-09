@@ -41,6 +41,11 @@ quest = function(params = {}) {
       result.reward = reward('item', {
         itemType: itemTypes.rnd()
       })
+    } else if (10 * Math.pow(10, randPower) > 3 && rndEvent(0.4)) {
+      result.reward = reward('item', {
+        itemType: 'energy',
+        amount: 6 * Math.pow(10, resources.level()/1000) * Math.pow(4, randPower)
+      })
     } else {
       result.reward = reward('farm', {
         amount: Math.pow(10, quality + power) * 
@@ -72,9 +77,6 @@ quest = function(params = {}) {
     continueText: function() {
       return this.lastDamage > 0 ? "Revive" : "Continue"
     },
-    locked: function() {
-      return resources.idle() < minIdleForQuest
-    },
     ready: function() {
       return this.unlocksIn() <= 0
     },
@@ -95,7 +97,7 @@ quest = function(params = {}) {
         resources.lastDeathChance.value = this.deathChance()
         lastFailedQuest = this
       }
-      resources.idle.value = 0
+      resources.idle.reset()
       refreshQuests()
     },
     steal: function() {
@@ -109,12 +111,13 @@ quest = function(params = {}) {
         lastFailedQuest = this
       }
       resources.activeTheft.value = 0
-      resources.idle.value = 0
+      resources.idle.reset()
     },
     choose: function() {
-      if (this.locked()) {
+      if (controlsLocked()) {
         return
       }
+      onCommand()
       if (resources.activeTheft() == 0) {
         this.activate()
       } else {
@@ -139,7 +142,7 @@ quest = function(params = {}) {
         Format.time(this.unlocksIn())
       )
       panel.find('.choose').toggleClass('btn-warning', theftMode())
-      panel.find('.choose').toggleClass('disabled', this.locked())
+      panel.find('.choose').toggleClass('disabled', controlsLocked())
       panel.find('.choose').toggleClass('btn-primary', !theftMode() && this.ready())
       panel.find('.choose').toggleClass('btn-danger', !theftMode() && !this.ready())
       setFormattedText(panel.find('.choose'), resources.activeTheft() == 0 ? 'Choose' : 'Steal')

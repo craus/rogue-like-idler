@@ -1,5 +1,6 @@
 reward = function(type, params) {
   params = params || {}
+  params.amount = params.amount || 1
   return Object.assign(rewardByType(type, params), params)
 }
 
@@ -39,9 +40,14 @@ rewardByType = function(type, params) {
       get: function() {
         resources[this.itemType].value += this.value()
       },
-      value: v(1),
+      value: function() {
+        return this.amount
+      },
       description: function() {
-        return resources[this.itemType].name.toLowerCase()
+        return "#{0}#{1}".i(
+          this.amount == 1 ? "" : "#{0} ".i(Format.integer(this.amount)),
+          resources[this.itemType].name.toLowerCase()
+        )
       }, 
     }
   }

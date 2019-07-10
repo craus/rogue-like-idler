@@ -1,4 +1,3 @@
-
 Array.prototype.last = function() {
   return this[this.length-1]
 }
@@ -80,6 +79,26 @@ Math.sign = function(x) {
   } else {
     return 0
   }
+}
+
+Function.prototype.withCallbacks = function() {
+  var f = this
+  var callbacked = Object.assign(function() {
+    callbacked.listBefore.each('call')
+    var result = f.call(this, ...arguments)
+    callbacked.listAfter.each('call')
+    return result
+  }, {
+    listBefore: [],
+    listAfter: [],
+    after: function(f) {
+      this.listAfter.push(f)
+    },
+    before: function(f) {
+      this.listBefore.push(f)
+    }
+  })
+  return callbacked
 }
 
 Number.prototype.clamp = function(min, max) {

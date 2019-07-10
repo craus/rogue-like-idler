@@ -5,6 +5,7 @@ resources = function() {
     farmMultiplier: variable(1, 'farmMultiplier', {formatter: large}),
     time: variable(0, 'time', {formatter: Format.time}),
     level: variable(0, 'level', {formatter: large}),
+    maxLevel: variable(0, 'maxLevel'),
     life: variable(3, 'life', {formatter: large, maxValue: 10, name: 'extra life'}),
     activeLife: variable(1, 'activeLife'),
     activeTheft: variable(0, 'activeTheft'),
@@ -13,7 +14,7 @@ resources = function() {
         this.value = startIdleValue()
       }
     }),
-    energy: variable(100, 'energy'),
+    energy: variable(startEnergy, 'energy'),
     lastDeathChance: variable(1, 'lastDeathChance', {formatter: x => Format.percent(x, 2)}),
     lastCommandMoment: variable(-Number.MAX_VALUE, 'lastCommandMoment')
   } 
@@ -22,4 +23,20 @@ resources = function() {
   resources.idle.income = () => 1
   controlsLocked = () => resources.time() < resources.lastCommandMoment() + 1
   onCommand = () => resources.lastCommandMoment.value = resources.time()
+
+  resources.level.change.after.push((from, to) => {
+    resources.maxLevel.change(x => Math.max(x, to))
+  })
+
+  var onLevelGot = function(level) {
+    if (level % 10 == 0) {
+      resources.life.change(x => x + 1)
+    }
+  }
+
+  resources.maxLevel.change.after.push((from, to) => {
+    for (var i = from+1; i <= to; i++) {
+      onLevelGot(i)
+    }
+  })
 }

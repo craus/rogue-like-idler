@@ -20,6 +20,7 @@ variable = function(initialValue, id, params) {
   var formatter = params.formatter || Format.integer
   var incomeFormatter = params.incomeFormatter || (function(x) { return noZero(signed(large(Math.floor(x+eps)))) })
   var result = v(initialValue)
+
   return Object.assign(result, {
     id: id,
     income: income,
@@ -35,6 +36,15 @@ variable = function(initialValue, id, params) {
     limited: function() {
       return !!this.maxValue && this.value == this.maxValue
     },
+    change: Object.assign(function(changer) {
+      this.change.before.forEach(cb => cb(this.value))
+      var old = this.value
+      this.value = changer(this.value)
+      this.change.after.forEach(cb => cb(old, this.value))
+    }, {
+      before: [],
+      after: []
+    }),
     paint: function() {
       this.check()
       setFormattedText($('.#{0}.value, .#{0} .value'.i(id)), this.format())

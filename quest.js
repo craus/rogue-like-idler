@@ -27,9 +27,16 @@ quest = function(params = {}) {
     // console.log("random quality", randomQuality)
     var quality = gaussianRandom(baseQuality, randomQuality)
 
+    var energyAmount = () => 6 * Math.pow(10, resources.level()/1000) * Math.pow(4, randPower)
+    var rewards = {
+      items: false,
+      energy: false,
+      life: false
+    }
+
     //console.log("quality", quality)
     result.difficulty = Math.pow(10, power)   
-    if (randPower > powerRandom() && rndEvent(0.1)) {
+    if (rewards.life && randPower > powerRandom() && rndEvent(0.1)) {
       result.reward = reward('item', {
         itemType: 'life'
       })
@@ -37,14 +44,14 @@ quest = function(params = {}) {
       result.reward = reward('farmMultiplier', {
         multiplier: Math.pow(10, randPower/100)
       })
-    } else if (randPower > powerRandom() && rndEvent(0.3)) {
+    } else if (rewards.items && randPower > powerRandom() && rndEvent(0.3)) {
       result.reward = reward('item', {
         itemType: itemTypes.rnd()
       })
-    } else if (10 * Math.pow(10, randPower) > 3 && rndEvent(0.4)) {
+    } else if (rewards.energy && energyAmount() > 3 && rndEvent(0.4)) {
       result.reward = reward('item', {
         itemType: 'energy',
-        amount: 6 * Math.pow(10, resources.level()/1000) * Math.pow(4, randPower)
+        amount: energyAmount()
       })
     } else {
       result.reward = reward('farm', {
@@ -88,7 +95,7 @@ quest = function(params = {}) {
     },
     activate: function() {
       if (this.win()) {
-        resources.level.value += 1
+        resources.level.change(x => x+1)
         this.reward.get()
       } else {
         resources.life.value -= this.damage

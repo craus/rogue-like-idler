@@ -139,6 +139,7 @@ function createRoguelike(params) {
       
       setFormattedText($('.idle2'), Math.round(resources.farm() / resources.farmIncome()))
 
+      $('.row.energy').toggle(resources.energy() > 0)
       $('.power').each(function() {
         $(this).toggleClass('disabled', resources.energy() < $(this).data('value'))
         setFormattedText($(".value", this), $(this).data('value'))

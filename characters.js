@@ -1,5 +1,6 @@
 function characters() {
   startFarm = 1
+  startEnergy = 0
   startFarmIncome = 0
   strengthIdlePower = 1
   farmRewardIdlePower = 0
@@ -53,6 +54,7 @@ function characters() {
   }
   noidler.after = () => {
     resources.idle.income = () => 0
+    startEnergy = 100
   }
-  currentCharacter = noidler
+  currentCharacter = warrior
 }

@@ -1,19 +1,23 @@
-reward = function(type, params) {
+"use strict"
+
+var reward = function(type, params) {
   params = params || {}
   params.amount = params.amount || 1
   return Object.assign(rewardByType(type, params), params)
 }
 
-rewardByType = function(type, params) {
+var rewardByType = function(type, params) {
   params.type = type
   if (type == "farm") {
+    params.farmType = params.farmType || 'farm'
+    var farmResource = resources[params.farmType]
     return {
       get: function() {
-        resources.farm.value += this.value() * farmReward
-        resources.farmIncome.value += this.value() * farmIncomeReward
+        farmResource.value += this.value() * farmReward
+        farmResource.income.value += this.value() * farmIncomeReward
       },
       description: function() {
-        return large(this.value()) + " farm" 
+        return "{0} {1}".i(large(this.value()), farmResource.name) 
       }, 
       value: function() {
         return this.amount * 

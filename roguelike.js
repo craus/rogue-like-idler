@@ -1,3 +1,5 @@
+"use strict"
+
 function createRoguelike(params) {
   
   // Rules common things
@@ -6,14 +8,14 @@ function createRoguelike(params) {
   var saveName = gameName+"SaveData"
 
   if (localStorage[saveName] != undefined) {
-    savedata = JSON.parse(localStorage[saveName])
+    window.savedata = JSON.parse(localStorage[saveName])
   } else {
-    savedata = {
+    window.savedata = {
       realTime: new Date().getTime()
     }
   }
-  loadedSave = savedata
-  console.log("loaded " + gameName + " save: ", savedata)
+  var loadedSave = window.savedata
+  console.log("loaded " + gameName + " save: ", window.savedata)
   
   var saveWiped = false
   
@@ -21,7 +23,7 @@ function createRoguelike(params) {
     if (saveWiped) {
       return
     }
-    savedata = {} 
+    window.savedata = {} 
     Object.values(resources).forEach(function(resource) {
       savedata[resource.id] = resource.save()
     })
@@ -33,13 +35,13 @@ function createRoguelike(params) {
     localStorage[saveName] = JSON.stringify(savedata)
   } 
   
-  wipeSave = function() {
+  window.wipeSave = function() {
     saveWiped = true
     localStorage.removeItem(saveName)
     location.reload()
   }
   
-  refreshQuests = function() {
+  window.refreshQuests = function() {
     if (!!quests) {
       quests.each('destroy')
     }
@@ -58,10 +60,10 @@ function createRoguelike(params) {
     currentCharacter.after()
   }
 
-  quests = []
-  lastFailedQuest = null
+  window.quests = []
+  window.lastFailedQuest = null
   
-  revive = function() {
+  var revive = function() {
     if (resources.life() < 1) {
       return
     }
@@ -96,7 +98,6 @@ function createRoguelike(params) {
     lastFailedQuest = quest(Object.assign({}, savedata.lastFailedQuest, questParams, {instantiate: false}))
   }
 
-
   $('.power').each(function() {
     $(this).click(() => {
       var value = $(this).data('value')
@@ -108,7 +109,7 @@ function createRoguelike(params) {
     })
   })
 
-  result = {
+  var result = {
     paint: function() {
       debug.profile('paint')
       

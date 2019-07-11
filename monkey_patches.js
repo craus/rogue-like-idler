@@ -68,7 +68,11 @@ String.prototype.replaceAll = function(search, replacement) {
 
 String.prototype.i = function() {
   var args = Array.prototype.slice.call(arguments,0)
-  return Object.entries(args).reduce((s, entry) => s.replaceAll('#{'+entry[0]+'}', entry[1]), this.toString())
+  return Object.entries(args).reduce((s, entry) => s.replaceAll('#{'+entry[0]+'}', entry[1]).replaceAll('{'+entry[0]+'}', entry[1]), this.toString())
+}
+
+String.prototype.capitalize = function() {
+  return this.charAt(0).toUpperCase() + this.slice(1)
 }
 
 Math.sign = function(x) {

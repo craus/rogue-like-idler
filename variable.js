@@ -50,6 +50,7 @@ variable = function(initialValue, id, params) {
       setFormattedText($('.#{0}.value, .#{0} .value'.i(id)), this.format())
       setFormattedText($('.#{0}.maxValue, .#{0} .maxValue'.i(id)), formatter(this.maxValue))
       setFormattedText($('.#{0}.name, .#{0} .name'.i(id)), this.name)
+      setFormattedText($('.#{0}.name.capitalized, .#{0} .name.capitalized'.i(id)), this.name.capitalize())
       $('.#{0}.limit, .#{0} .limit'.i(id)).toggleClass('limited', this.limited())
       $('.#{0}.showWhenLimited, .#{0} .showWhenLimited'.i(id)).toggle(this.limited())
       setFormattedText($('.#{0}.income, .#{0} .income'.i(id)), incomeFormatter(this.income()))

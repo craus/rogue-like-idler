@@ -1,6 +1,14 @@
-resources = function() {
+"use strict"
+
+var resources = function() {
+  window.farmTypes = []
+  var farmResource = function(name) {
+    farmTypes.push(name)
+    return variable(startFarm, name, {formatter: large, incomeFormatter: x => noZero(signed(large(x)))})
+  }
   resources = {
-    farm: variable(startFarm, 'farm', {formatter: large, incomeFormatter: x => noZero(signed(large(x)))}),
+    farm: farmResource('farm'),
+    nearm: farmResource('nearm'),
     farmIncome: variable(startFarmIncome, 'farmIncome', {formatter: large}),
     farmMultiplier: variable(1, 'farmMultiplier', {formatter: large}),
     time: variable(0, 'time', {formatter: Format.time}),
@@ -21,8 +29,8 @@ resources = function() {
   resources.time.income = () => 1
   resources.farm.income = resources.farmIncome
   resources.idle.income = () => 1
-  controlsLocked = () => resources.time() < resources.lastCommandMoment() + 1
-  onCommand = () => resources.lastCommandMoment.value = resources.time()
+  window.controlsLocked = () => resources.time() < resources.lastCommandMoment() + 1
+  window.onCommand = () => resources.lastCommandMoment.value = resources.time()
 
   resources.level.change.after.push((from, to) => {
     resources.maxLevel.change(x => Math.max(x, to))

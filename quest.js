@@ -55,6 +55,7 @@ quest = function(params = {}) {
       })
     } else {
       result.reward = reward('farm', {
+        farmType: farmTypes.rnd(),
         amount: Math.pow(10, quality + power) * 
           resources.farmMultiplier()
       })

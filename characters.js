@@ -1,5 +1,6 @@
 function characters() {
   startFarm = 1
+  startNearm = 1
   startEnergy = 0
   startFarmIncome = 0
   strengthIdlePower = 1

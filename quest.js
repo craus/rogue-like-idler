@@ -3,7 +3,7 @@ quest = function(params = {}) {
   var powerRandom = function() {
     return gaussianRandom(
       0, 
-      0.5 * Math.pow(resources.level()+7, 0.25) - 0.1
+      0.5 * Math.pow(0*resources.level()+7, 0.25) - 0.1
     )
   }
   if (!result.difficulty) {
@@ -16,13 +16,13 @@ quest = function(params = {}) {
     baseQuality -= 2*power/10
     baseQuality += 2*Math.floor(resources.level()/100)
     
-    baseQuality -= power/100
-    baseQuality += Math.floor(resources.level()/1000)
+    //baseQuality -= power/100
+    //baseQuality += Math.floor(resources.level()/1000)
     
-    baseQuality -= power/1000
-    baseQuality += Math.floor(resources.level()/10000)
+    //baseQuality -= power/1000
+    //baseQuality += Math.floor(resources.level()/10000)
     
-    var randomQuality = 0.6+0.2*Math.sin(power/14.19)
+    var randomQuality = 0.6+0.2*Math.sin(0*power/14.19)
     //console.log("base quality", baseQuality)
     // console.log("random quality", randomQuality)
     var quality = gaussianRandom(baseQuality, randomQuality)

@@ -26,7 +26,7 @@ function characters() {
   var assassin = () => {
     questParams = {
       unlocksIn: function() {
-        return this.difficulty / resources.farm() - resources.idle()
+        return this.farmCheck.difficulty / resources.farm() - resources.idle()
       },
       deathChance: function() {
         return this.ready() ? 0 : 1

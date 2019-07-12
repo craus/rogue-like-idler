@@ -42,6 +42,7 @@
   <script src="reward.js"></script> 
   <script src="quest.js"></script> 
   
+  <script src="resetter.js"></script> 
   <script src="characters.js"></script> 
   <script src="items.js"></script> 
   <script src="resources.js"></script> 
@@ -75,7 +76,7 @@
           </div>
         </div>
         <div class="row centered">   
-          <div class="col-sm-2 farmColumn">       
+          <div class="col-sm-4 farmColumn">       
             <div class="farm panel panel-primary panel-readiness">
               <div class="panel-heading big left">
                 <span class="capitalized name">?</span>
@@ -86,7 +87,7 @@
               </div>
             </div>   
           </div>    
-          <div class="col-sm-2 nearmColumn">       
+          <div class="col-sm-2 nearmColumn hidden">       
             <div class="nearm panel panel-primary panel-readiness">
               <div class="panel-heading big left">
                 <span class="capitalized name">?</span>
@@ -118,7 +119,7 @@
               </div>
             </div>     
           </div>  
-          <div class="col-sm-2">       
+          <div class="col-sm-2 energyColumn">       
             <div class="panel panel-primary panel-readiness">
               <div class="panel-heading big left">
                 Energy 
@@ -128,7 +129,7 @@
               </div>
             </div>   
           </div>
-          <div class="col-sm-2 idleColumn">       
+          <div class="col-sm-2">       
             <div class="panel panel-primary">
               <div class="panel-heading big left">
                 Level
@@ -144,7 +145,11 @@
                 Life 
               </div>
               <div class="panel-body big left">
-                <span class="value">?</span><span class="showWhenLimited">/<span class="maxValue">?</span></span>
+                <span class="value">?</span>
+                <span class="showWhenLimited">
+                  /
+                  <span class="maxValue">?</span>
+                </span>
               </div>
             </div>   
           </div>
@@ -154,7 +159,7 @@
           <div class="col-sm-4 hidden questSample">    
             <div class="panel panel-default panel-readiness">   
               <div class="panel-body big population">
-                <div class="line">Danger: <span class="danger"></span></div>
+                <div class="line"><span class="farmCheckType">?</span> check: <span class="danger"></span></div>
                 <div class="line deathChanceLine"><span class=failName>Death</span> chance: <span class="deathChance"></span></div>
                 <div class="line unlocksInLine">Unlocks in: <span class="unlocksIn"></span></div>
                 <div class="line">
@@ -182,6 +187,16 @@
           <button type="button" class="btn btn-warning btn-energy power" data-value="1000">
             Power <span class="value">?</span>
           </button> 
+        </div>
+        <br>
+        <div class="row centered effects alive">
+          <span class="label big label-default lifeReset">
+            <span class="value">?</span>
+            <span class="resource">?</span>
+            after
+            <span class="remains">?</span>
+            levels
+          </span>
         </div>
         <br>
         <div class="row centered items alive">

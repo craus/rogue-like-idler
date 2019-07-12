@@ -6,7 +6,7 @@ quest = function(params = {}) {
       0.5 * Math.pow(0*resources.level()+7, 0.25) - 0.1
     )
   }
-  if (!result.difficulty) {
+  if (!result.farmCheck) {
     var basePower = 0.1 * resources.level()
     var randPower = powerRandom()
     var power = basePower + randPower
@@ -35,7 +35,10 @@ quest = function(params = {}) {
     }
 
     //console.log("quality", quality)
-    result.difficulty = Math.pow(10, power)   
+    result.farmCheck = {
+      difficulty: Math.pow(10, power),
+      farmType: farmTypes.rnd()
+    }
     if (rewards.life && randPower > powerRandom() && rndEvent(0.1)) {
       result.reward = reward('item', {
         itemType: 'life'
@@ -74,7 +77,10 @@ quest = function(params = {}) {
     damage: 1, 
     lastDamage: 1,
     deathChance: function() {
-      return this.difficulty/(resources.farm()*Math.pow(resources.idle(), strengthIdlePower)+this.difficulty)
+      var d = this.farmCheck.difficulty
+      var f = resources[this.farmCheck.farmType]()
+      var p = f * Math.pow(resources.idle(), strengthIdlePower)
+      return d / (p + d)
     },
     failText: function() {
       return this.lastDamage > 0 ? "death" : "fail"
@@ -136,7 +142,8 @@ quest = function(params = {}) {
     paint: function() {
       panel.find('.deathChanceLine').toggle(this.ready())
       panel.find('.unlocksInLine').toggle(!this.ready())
-      setFormattedText(panel.find('.danger'), large(result.difficulty))
+      setFormattedText(panel.find('.farmCheckType'), result.farmCheck.farmType.capitalize())
+      setFormattedText(panel.find('.danger'), large(result.farmCheck.difficulty))
       setFormattedText(
         panel.find('.deathChance'), 
         Format.percent(this.deathChance(), 2)
@@ -165,8 +172,8 @@ quest = function(params = {}) {
     },
   }, result)
   
-  setFormattedText(panel.find('.danger'), large(result.difficulty))
-  setFormattedText(panel.find('.deathChance'), Format.percent(result.deathChance(), 2))
+  result.paint()
+
   panel.find('.choose').click(() => result.choose())
   if (!!result.reward.itemType) {
     panel.find('.itemType').addClass(result.reward.itemType)

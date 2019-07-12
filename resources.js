@@ -1,5 +1,7 @@
 "use strict"
 
+var resetters = []
+
 var resources = function() {
   window.farmTypes = []
   var farmResource = function(name) {
@@ -8,7 +10,7 @@ var resources = function() {
   }
   resources = {
     farm: farmResource('farm'),
-    nearm: farmResource('nearm'),
+    //nearm: farmResource('nearm'),
     farmIncome: variable(startFarmIncome, 'farmIncome', {formatter: large}),
     farmMultiplier: variable(1, 'farmMultiplier', {formatter: large}),
     time: variable(0, 'time', {formatter: Format.time}),
@@ -36,11 +38,25 @@ var resources = function() {
     resources.maxLevel.change(x => Math.max(x, to))
   })
 
-  var onLevelGot = function(level) {
+
+  window.onLevelGot = Object.assign(function(level) {
+    onLevelGot.listeners.forEach(l => l(level))
+  }, {
+    listeners: []
+  })
+
+  onLevelGot.listeners.push(level => {
     if (level % 10 == 0) {
       resources.life.change(x => x + 1)
     }
-  }
+  })
+
+  resetter({
+    id: 'lifeReset',
+    resource: 'life',
+    value: 3,
+    every: 71
+  })
 
   resources.maxLevel.change.after.push((from, to) => {
     for (var i = from+1; i <= to; i++) {

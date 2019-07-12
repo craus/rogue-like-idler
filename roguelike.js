@@ -63,7 +63,7 @@ function createRoguelike(params) {
   window.quests = []
   window.lastFailedQuest = null
   
-  var revive = function() {
+  window.revive = function() {
     if (resources.life() < 1) {
       return
     }
@@ -114,6 +114,8 @@ function createRoguelike(params) {
       debug.profile('paint')
       
       Object.values(resources).each('paint')
+      resetters.each('paint')
+      
       $('.alive').toggle(resources.activeLife() > 0)
       $('.dead').toggle(resources.activeLife() <= 0)
       $('.lifePositive').toggle(resources.life() > 0)
@@ -131,12 +133,14 @@ function createRoguelike(params) {
       $('.lockWarn').toggleClass('panel-primary', !controlsLocked())
       
       var showFarmMultiplier = resources.farmMultiplier() > 1
+      var showEnergy = resources.energy() > 0
       
       $('.farmColumn').toggleClass('col-sm-3', showFarmMultiplier)
       $('.farmColumn').toggleClass('col-sm-4', !showFarmMultiplier)
       $('.farmMultiplierColumn').toggle(showFarmMultiplier)
-      $('.idleColumn').toggleClass('col-sm-2', showFarmMultiplier)
-      $('.idleColumn').toggleClass('col-sm-2', !showFarmMultiplier)
+      $('.energyColumn').toggle(showEnergy)
+      $('.idleColumn').toggleClass('col-sm-2', showFarmMultiplier || showEnergy)
+      $('.idleColumn').toggleClass('col-sm-4', !showFarmMultiplier && !showEnergy)
       
       setFormattedText($('.idle2'), Math.round(resources.farm() / resources.farmIncome()))
 

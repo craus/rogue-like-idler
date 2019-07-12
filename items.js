@@ -62,7 +62,7 @@ function items() {
     quests.forEach(q => {
       if (q.reward.type == 'farm') {
         q.reward.amount /= 10
-        q.difficulty /= 10
+        q.farmCheck.difficulty /= 10
       }
     })
   })
@@ -70,7 +70,7 @@ function items() {
     quests.forEach(q => {
       if (q.reward.type == 'farm') {
         q.reward.amount *= 10
-        q.difficulty *= 10
+        q.farmCheck.difficulty *= 10
       }
     })
   })

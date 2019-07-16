@@ -105,6 +105,23 @@ Function.prototype.withCallbacks = function() {
   return callbacked
 }
 
+Function.prototype.extend = function(newVariant) {
+  var sup = this
+  return function() {
+    var obj = this
+    newVariant.call(obj, function() {
+      sup.call(obj, ...arguments)
+    }, ...arguments)
+  }
+}
+
+Object.defineProperty(Object.prototype, "inherit", { 
+    value: function(field, newVariant) {
+      this[field] = this[field].extend(newVariant)
+    },
+    enumerable : false
+});
+
 Number.prototype.clamp = function(min, max) {
   return Math.min(Math.max(this, min), max);
 };

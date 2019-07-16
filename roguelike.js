@@ -84,6 +84,9 @@ function createRoguelike(params) {
         revive()
       }
     }
+    if (e.key == "ArrowDown") {
+      resetPower()
+    }
     if (e.originalEvent.code == "KeyR" && e.shiftKey) {
       wipeSave()
     }
@@ -115,7 +118,7 @@ function createRoguelike(params) {
       
       Object.values(resources).each('paint')
       resetters.each('paint')
-      
+
       $('.alive').toggle(resources.activeLife() > 0)
       $('.dead').toggle(resources.activeLife() <= 0)
       $('.lifePositive').toggle(resources.life() > 0)
@@ -134,13 +137,17 @@ function createRoguelike(params) {
       
       var showFarmMultiplier = resources.farmMultiplier() > 1
       var showEnergy = resources.energy() > 0
+      var showLifetime = resources.lifetime.income() != 0
       
       $('.farmColumn').toggleClass('col-sm-3', showFarmMultiplier)
       $('.farmColumn').toggleClass('col-sm-4', !showFarmMultiplier)
       $('.farmMultiplierColumn').toggle(showFarmMultiplier)
+
+      $('.lifetimeColumn').toggle(showLifetime)
       $('.energyColumn').toggle(showEnergy)
-      $('.idleColumn').toggleClass('col-sm-2', showFarmMultiplier || showEnergy)
-      $('.idleColumn').toggleClass('col-sm-4', !showFarmMultiplier && !showEnergy)
+      var shortIdleColumn = showFarmMultiplier || showEnergy || showLifetime
+      $('.idleColumn').toggleClass('col-sm-2', shortIdleColumn)
+      $('.idleColumn').toggleClass('col-sm-4', !shortIdleColumn)
       
       setFormattedText($('.idle2'), Math.round(resources.farm() / resources.farmIncome()))
 

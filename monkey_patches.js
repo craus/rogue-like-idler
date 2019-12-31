@@ -125,3 +125,13 @@ Object.defineProperty(Object.prototype, "inherit", {
 Number.prototype.clamp = function(min, max) {
   return Math.min(Math.max(this, min), max);
 };
+
+Number.prototype.log = function(base) {
+  return Math.log(this) / Math.log(base)
+}
+
+Number.prototype.round = function(digits) {
+  var trunc = Math.floor(this.log(10))+1
+  var base = Math.pow(10, digits-trunc)
+  return Math.round(this * base) / base;
+}

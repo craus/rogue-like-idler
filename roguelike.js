@@ -59,7 +59,7 @@ function createRoguelike(params) {
   if (!!currentCharacter.after) {
     currentCharacter.after()
   }
-
+  
   window.quests = []
   window.lastFailedQuest = null
   

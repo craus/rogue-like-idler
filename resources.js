@@ -31,7 +31,7 @@ var resources = function() {
   } 
 
   resources.time.income = () => 1
-  resources.lifetime.income = () => -1
+  //resources.lifetime.income = () => -1
 
   // var oldTick = resources.lifetime.tick
   // resources.lifetime.tick = function(deltaTime) {

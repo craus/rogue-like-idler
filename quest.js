@@ -29,14 +29,14 @@ quest = function(params = {}) {
 
     var energyAmount = () => 6 * Math.pow(10, resources.level()/1000) * Math.pow(4, randPower)
     var rewards = {
-      items: false,
+      items: true,
       energy: false,
       life: false
     }
 
     //console.log("quality", quality)
     result.farmCheck = {
-      difficulty: Math.pow(10, power),
+      difficulty: Math.pow(10, power).round(2),
       farmType: farmTypes.rnd()
     }
     if (rewards.life && randPower > powerRandom() && rndEvent(0.1)) {
@@ -59,8 +59,8 @@ quest = function(params = {}) {
     } else {
       result.reward = reward('farm', {
         farmType: farmTypes.rnd(),
-        amount: Math.pow(10, quality + power) * 
-          resources.farmMultiplier()
+        amount: (Math.pow(10, quality + power) * 
+          resources.farmMultiplier()).round(2)
       })
     }
   } else {
@@ -143,7 +143,7 @@ quest = function(params = {}) {
       panel.find('.deathChanceLine').toggle(this.ready())
       panel.find('.unlocksInLine').toggle(!this.ready())
       setFormattedText(panel.find('.farmCheckType'), result.farmCheck.farmType.capitalize())
-      setFormattedText(panel.find('.danger'), large(result.farmCheck.difficulty))
+      setFormattedText(panel.find('.danger'), large(result.farmCheck.difficulty, 2))
       setFormattedText(
         panel.find('.deathChance'), 
         Format.percent(this.deathChance(), 2)

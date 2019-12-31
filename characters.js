@@ -52,10 +52,15 @@ function characters() {
   }
   var noidler = () => {
     startIdleValue = () => 1
+    startEnergy = 100
   }
   noidler.after = () => {
     resources.idle.income = () => 0
-    startEnergy = 100
+    onLevelGot.listeners.push(level => {
+      if (level % 1 == 0) {
+        resources.energy.change(x => x + 6)
+      }
+    })    
   }
-  currentCharacter = warrior
+  currentCharacter = noidler
 }

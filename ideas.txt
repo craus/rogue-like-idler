@@ -1,40 +1,79 @@
 features:
-	[BRILLIANT!!!] quest manacost
+	quest manacost
 		mana regen 1/s
+		checked on practice and appeared bad
 	shadow twin: second run, you gain sqrt(his farm)
 	challenges: second run, you gain bonuses for certain achievements
 		gain as mush farm as possible in 1 minute
 		proceed to level 100 as fast as possible
 		proceed with no death as far as possible
 	time armour: gain multiplyer T for your strength, where T is game time
- 	gain gold from quests; buy farm for gold, cost efficiency multiplied by idle time
+ 	gain gold from quests
+ 		buy farm for gold, cost efficiency multiplied by idle time
   
 quest rewards:
 	farm income
 	items
-	life
+	life (also is item?)
 	farm reward multiplyer
+	gold
 	
 quest properties:
-	idle bonus applied K times (K may be fractional)
-	multiple life spent on death
-	multiple death check (AND, OR)
-	echo: death check repeat until die; repeat reward 
-	you lose 50% farm on death
-	you lose X farm on attempt
-	-X idle bonus (no attempts with idle bonus < X)
-	reward multiplied by idle bonus
-	stun T seconds on death
-	stun T seconds on attempt
-	curse on death
-	curse on attempt
+	win scenario
+		gain reward
+		gain level
+	fail scenario
+		event: hit 1 damage
+	attempt scenario
+		reroll quests
+	scenario elements
+		gain reward (good)
+		gain level (neutral)
+		reroll quests (neutral)
+		event
+			instant
+				gain item
+				hit N damage
+				gain T energy/stun T seconds 
+				gain/lose X farm
+				gain/lose X% farm
+			buff/debuff for N levels
+				also quest traits
+					+-X idle power
+					+-X idle reward power
+					+-X idle time
+					multiple death check (AND/OR)
+					echo: death check repeat until die; repeat reward 
+				+-X% rewards
+				silence (cannot use items)
+				quest choose
+					choose from 1 quest more/less
+					choose 1 more quest each level; random chosen quest will be attempted
+					see 1 less quest when choosing; discard a quest to see next one
+			meta
+				instant
+					event N levels later
+				buff/debuff
+					event on fail for N levels
+					event on attempt for N levels
+	samples
+		reward given N levels later
+		reward given T seconds later
+		reward taken back N levels later
+		quest sequences
+			if you fail a quest, you lose all rewards and level gained in this sequence
+			quest reward added to next quest
 	
-curses:
-	multiple death check (OR)
-	-X% farm
-	stun on death
-	stun on attempt
-	
+
+quest choose
+	operations
+		add: add quest
+		ban: remove quest at will
+		discard: remove quest at random
+	default process:
+		add add add ban ban
+
+
 permanents:	
 	+X start idle bonus
 	rewards multiplied by X idle power
@@ -42,15 +81,40 @@ permanents:
 	+X life per second
 	+X life per level
 	+X% farm per second
+	Race: farm rewards doubled for each quest completed last 10 seconds
+	Lifelink: each quest yields extra life
+	X% of idle time persist after attempt
+	X% of idle time persist after fail
+	your power is multiplied by previous idle time
+	you gain farm income instead of farm
+	on quest fail, 5% extra chance to complete it instead
+	if quest fail chance is less than 5%, success is guaranteed
+	you gain extra life each 1 hour
+	you gain +1% farm each minute
+	you know actual outcomes of quests
+	if you complete 10 quests in a row, doubles your farm
+	if you fail a quest, next attempt fail does not cause death
+	you may choose to move one level back instead of forth when completing quest
+	if you have exactly 1 life, gain x10 power multiplier
 
 items:
+	implemented
+		revive (extra life)
+		reroll
+		bubble: no death next attempt
+		charge: x2 idle time
+		train: x2 farm
+		midas: x2 rewards
+		shortcut: +5 levels
+		backdoor: -5 levels
+		shrink: 10 times less dangers and rewards
+		enlarge: 10 times greater dangers and rewards
+		thief: 
+			no death, reroll and level gain next attempt
+			on success, quest reward become empty
 	double death check (AND)
 	x100 death check (OR); x100 reward
-	* x100 danger, x10 reward
-	* danger/10, reward/100
 	echo next battle
-	* back N levels
-	* forward N levels
 	win next battle 100%; no reward (same as forward 1 level?)
 	idle accumulator
 		abilities
@@ -65,19 +129,30 @@ items:
 	+X idle power 
 	predict quest
 	lock quest
+	lock all quests until fail
 	+X idle time
 	duplicate item
-	* steal reward
-	choose quest randomly, get small bonus
 	retry quest after fail
 	convert all farm into farm income
 	convert fail risk into expected value
 	saveload
 	-X% death chance next battle
-	
+	keep idle time after next battle
+	antiitems
+		antireroll: choose quest randomly
+		antirevive: replay last quest to fail
+		antibubble: lose extra life if fail next quest
+		anticharge: idle time /= 100; no idle time increase until next attempt
+		antitrain: farm /= 2
+		antimidas: rewards *= -100;
+		selfless: no rewards for 5 levels
+		brave: double death checks (OR) for 5 levels
+		renounce: lose all farm when taking reward next attempt
+
+item expire in N levels
+
 superpowers
 	Coil power: split reality into two. Play both in parallel. Destroy one at will at any moment.
-	
 	
 achievements:
 	die with low probability P
@@ -87,12 +162,13 @@ achievements:
 	do not lose life N levels in a row
   
 characters:
-  warrior (default): 
-    battle power multiplied by idle time
-  trader: 
-    quest reward multiplied by idle time
-  builder: 
-    quest rewards yields farm income instead of farm
+	implemented
+	  warrior (default): 
+	    battle power multiplied by idle time
+	  trader: 
+	    quest reward multiplied by idle time
+	  builder: 
+	    quest rewards yields farm income instead of farm
   assassin: 
     cannot die; 
     quest can be attempted only if farm * idle > danger
@@ -112,11 +188,32 @@ characters:
   scout:
     each second, receives a bit of information about quest winrates
   medician:
-    cannot have more than 10 lives;
+    cannot have more than 10 lifes;
     receives extra life every minute;
   plumber:
   bomber:
     cannot die;
     lose [danger]/[idle time] farm on quest attempt
     
-    
+lists
+	quest traits
+	curses
+	characters
+	items
+	missions
+	achievements
+	permanents
+
+missions
+	win conditions
+		reach level N
+		reach farm F
+		gain +X% farm at once
+	lose conditions
+		T seconds passed
+		fail a quest
+		choose non-central quest
+		choose not the most dangerous quest
+		reach level N
+		reach farm F
+

@@ -38,7 +38,7 @@ function items() {
   item('doubleIdle', 'Charge', () => {
     resources.idle.value *= 2
   })
-  item('doubleFarm', 'Training', () => {
+  item('doubleFarm', 'Train', () => {
     resources.farm.value *= 2
   })
   item('doubleRewards', 'Midas', () => {    
@@ -74,7 +74,7 @@ function items() {
       }
     })
   })
-  item('theft', 'Theft', () => {
+  item('thief', 'Thief', () => {
     resources.activeTheft.value = 1
   })
 }

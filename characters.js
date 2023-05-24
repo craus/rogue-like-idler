@@ -36,8 +36,12 @@ function characters() {
   var rogue = () => {
     questParams = {
       activate: function() {
-        resources.life.value -= this.deathChance()
-        resources.level.value += 1
+        resources.life.value -= this.damage * this.deathChance()
+        this.lastDamage = this.damage * this.deathChance()
+        resources.lastDeathChance.value = this.deathChance()
+
+        resources.level.change(x => x+1)
+
         if (resources.level() % 10 == 0) {
           resources.life.value += 1
         }
@@ -47,6 +51,9 @@ function characters() {
         var farm = (1-this.deathChance()) * this.reward().farm
         resources.farm.value += farm * farmReward
         resources.farmIncome.value += farm * farmIncomeReward
+
+        resources.idle.reset()
+        refreshQuests()
       }
     }
   }
@@ -62,5 +69,5 @@ function characters() {
       }
     })    
   }
-  currentCharacter = warrior
+  currentCharacter = trader
 }

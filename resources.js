@@ -68,24 +68,28 @@ var resources = function() {
     listeners: []
   })
 
-  onLevelGot.listeners.push(level => {
-    if (level % 10 == 0) {
-      resources.life.change(x => x + 1)
-    }
-  })
+  // onLevelGot.listeners.push(level => {
+    // if (level % 10 == 0) {
+      // resources.life.change(x => x + 1)
+    // }
+  // })
 
   onLevelGot.listeners.push(level => {
     if (level % 1 == 0) {
       resources.lifetime.change(x => x + 6)
     }
   })
-
-  resetter({
-    id: 'lifeReset',
-    resource: 'life',
-    value: 5,
-    every: 71
+  
+  onLevelGot.listeners.push(level => {
+    saveLevelCheckpoint()
   })
+
+  // resetter({
+    // id: 'lifeReset',
+    // resource: 'life',
+    // value: 5,
+    // every: 71
+  // })
 
   resources.maxLevel.change.after.push((from, to) => {
     for (var i = from+1; i <= to; i++) {

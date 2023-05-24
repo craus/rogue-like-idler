@@ -62,5 +62,5 @@ function characters() {
       }
     })    
   }
-  currentCharacter = noidler
+  currentCharacter = warrior
 }

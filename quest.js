@@ -29,7 +29,7 @@ quest = function(params = {}) {
 
     var energyAmount = () => 6 * Math.pow(10, resources.level()/1000) * Math.pow(4, randPower)
     var rewards = {
-      items: true,
+      items: false,
       energy: false,
       life: true
     }
@@ -105,7 +105,7 @@ quest = function(params = {}) {
         resources.level.change(x => x+1)
         this.reward.get()
       } else {
-        resources.life.value -= this.damage
+        //resources.life.value -= this.damage
         resources.activeLife.value -= 1
         this.lastDamage = this.damage
         resources.lastDeathChance.value = this.deathChance()

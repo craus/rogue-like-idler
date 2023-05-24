@@ -28,6 +28,7 @@ function createRoguelike(params) {
       savedata[resource.id] = resource.save()
     })
     savedata.quests = quests.map(q => q.save())
+    savedata.checkpoints = checkpoints
     if (!!lastFailedQuest) {
       savedata.lastFailedQuest = lastFailedQuest.save()
     }
@@ -56,6 +57,8 @@ function createRoguelike(params) {
   currentCharacter()
   resources()
   items()
+  checkpointsModule()
+  
   if (!!currentCharacter.after) {
     currentCharacter.after()
   }
@@ -63,11 +66,14 @@ function createRoguelike(params) {
   window.quests = []
   window.lastFailedQuest = null
   
+  var levelLostWhenDead = 1
+  
   window.revive = function() {
-    if (resources.life() < 1) {
-      return
-    }
+    // if (resources.life() < 1) {
+      // return
+    // }
     resources.activeLife.value += 1
+    loadCheckpoint(resources.level()-levelLostWhenDead)
   }
   
   $("body").keydown(e => {
@@ -150,6 +156,8 @@ function createRoguelike(params) {
       $('.idleColumn').toggleClass('col-sm-4', !shortIdleColumn)
       
       setFormattedText($('.idle2'), Math.round(resources.farm() / resources.farmIncome()))
+      
+      setFormattedText($('.revertLevelsOnFail'), levelLostWhenDead)
 
       $('.row.energy').toggle(resources.energy() > 0)
       $('.power').each(function() {

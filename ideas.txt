@@ -7,7 +7,7 @@ features:
 		gain as mush farm as possible in 1 minute
 		proceed to level 100 as fast as possible
 		proceed with no death as far as possible
-	time armour: gain multiplyer T for your strength, where T is game time
+	time armour: gain multiplier T for your strength, where T is game time
  	gain gold from quests
  		buy farm for gold, cost efficiency multiplied by idle time
   
@@ -169,13 +169,13 @@ characters:
 	    quest reward multiplied by idle time
 	  builder: 
 	    quest rewards yields farm income instead of farm
-  assassin: 
-    cannot die; 
-    quest can be attempted only if farm * idle > danger
-  rogue:
-  	cannot fail quest;
-  	spend life on quest equal to death chance;
-  	has extra (1-death chance) farm and levelup multiplier 
+	  assassin: 
+	    cannot die; 
+	    quest can be attempted only if farm * idle > danger
+	  rogue:
+	  	cannot fail quest;
+	  	spend life on quest equal to death chance;
+	  	has extra (1-death chance) farm and levelup multiplier 
   gambler: 
     cannot die; 
     quests are locked and thus cannot be attempted; 

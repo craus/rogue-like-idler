@@ -169,12 +169,37 @@ signed = function(x) {
   if (x == null) return null
   return sign(x) + x
 }
-large = function(x, digits = 4) {
+// digitsAfter is currently ignored
+large = function(x, digitsAfter = 4, digitsTotal = 4, alwaysFraction = false) {
   if (x == null) return null
   if (x == 0) return 0
-  if (Math.abs(x) >= 1e4*(1-eps) || Math.abs(x) < 1-eps) return x.toPrecision(digits).replace('+','')
-  if (Math.abs(x - Math.floor(x+eps)) < eps) return Math.floor(x+eps)
-  return x.toPrecision(digits).replace('+','') 
+  if (Math.abs(x) >= Math.pow(10, digitsTotal)*(1-eps) || Math.abs(x) < 1-eps) return x.toPrecision(digitsTotal).replace('+','')
+  if (!alwaysFraction && Math.abs(x - Math.floor(x+eps)) < eps) return Math.floor(x+eps) 
+  //x = Math.round(1.0 * x / Math.pow(10, digitsAfter)) * Math.pow()
+  return x.toPrecision(digitsTotal).replace('+','') 
+}
+assert = function(b) {
+  if (!b) {
+    throw new Error('Assertion failed')
+  }
+}
+assertEqual = function(x, y) {
+  if (x == y) return
+  console.error(Error('Assertion failed: {0} != {1}'.i(x, y)))
+}
+testLarge = function() {
+  f = x => large(x, 2, 4, true)
+  assertEqual(f(23237.123), '2.324e4') // 4 digits with exponent when number greater 1e4
+  assertEqual(f(7618.244), '7618') // at most 4 digits total
+  assertEqual(f(931.168), '931.2') // at most 4 digits total
+  assertEqual(f(29.13994), '29.14')
+  assertEqual(f(4.228231), '4.22') // at most 2 digits after decimal point
+  assertEqual(f(0.72194), '0.72') // at most 2 digits after decimal point
+  assertEqual(f(3), '3.00') 
+  assertEqual(f(33), '33.00')
+  assertEqual(f(333), '333.0')
+  assertEqual(f(3456), '3456')
+  assertEqual(f(34567), '3.457e4')
 }
 precision = function(x, p = 4) {
   if (x == null) return null

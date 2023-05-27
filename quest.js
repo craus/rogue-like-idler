@@ -100,25 +100,31 @@ quest = function(params = {}) {
     unlocksIn: function() {
       return 0
     },
-    win: function() {
+    winEvent: function() {
       return rndEvent(1-this.deathChance())
     },
+    win: function() {
+      resources.level.change(x => x+1)
+      this.reward.get()
+    },
+    lose: function() {
+      resources.life.value -= this.damage
+      resources.activeLife.value -= 1
+      this.lastDamage = this.damage
+      resources.lastDeathChance.value = this.deathChance()
+      lastFailedQuest = this
+    },
     activate: function() {
-      if (this.win()) {
-        resources.level.change(x => x+1)
-        this.reward.get()
+      if (this.winEvent()) {
+        this.win()
       } else {
-        resources.life.value -= this.damage
-        resources.activeLife.value -= 1
-        this.lastDamage = this.damage
-        resources.lastDeathChance.value = this.deathChance()
-        lastFailedQuest = this
+        this.lose()
       }
       resources.idle.reset()
       refreshQuests()
     },
     steal: function() {
-      if (this.win()) {
+      if (this.winEvent()) {
         this.reward.get()
         this.reward = reward('empty')
       } else {

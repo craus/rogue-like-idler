@@ -12,9 +12,9 @@ var rewardByType = function(type, params) {
     params.farmType = params.farmType || 'farm'
     var farmResource = resources[params.farmType]
     return {
-      get: function() {
-        farmResource.value += this.value() * farmReward
-        farmResource.income.value += this.value() * farmIncomeReward
+      get: function(amount = 1) {
+        farmResource.value += this.value() * farmReward * amount
+        farmResource.income.value += this.value() * farmIncomeReward * amount
       },
       description: function() {
         return "{0} {1}{2}".i(large(this.value(), 2, 4, true), farmResource.name, farmIncomeReward > 0 ? "/s" : "") 

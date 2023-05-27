@@ -44,15 +44,11 @@ function characters() {
 
         resources.level.change(x => x+1)
 
-        if (resources.level() % 10 == 0) {
-          resources.life.value += 1
-        }
         if (resources.life.value <= 0) {
           resources.activeLife.value = 0
         }
-        var farm = (1-this.deathChance()) * this.reward().farm
-        resources.farm.value += farm * farmReward
-        resources.farmIncome.value += farm * farmIncomeReward
+
+        this.reward.get(1-this.deathChance())
 
         resources.idle.reset()
         refreshQuests()
@@ -92,6 +88,6 @@ function characters() {
       }
     })    
   }
-  currentCharacter = Characters.assassin
+  currentCharacter = Characters.rogue
 
 }

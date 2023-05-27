@@ -83,7 +83,7 @@ quest = function(params = {}) {
       return d / (p + d)
     },
     deathChance: function() {
-      return baseDeathChance
+      return this.baseDeathChance()
     },
     failText: function() {
       return this.lastDamage > 0 ? "death" : "fail"

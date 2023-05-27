@@ -170,6 +170,7 @@ characters:
 	    quest reward multiplied by idle time
 	  builder: 
 	    quest rewards yields farm income instead of farm
+	    ? when attempts quest, all farm income is lost 
 	  assassin: 
 	    cannot die; 
 	    quest can be attempted only if farm * idle > danger

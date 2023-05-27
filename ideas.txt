@@ -193,6 +193,9 @@ characters:
     cannot have more than 10 lifes;
     receives extra life every minute;
   plumber:
+  	cannot die;
+  	doesn't know dangers;
+  	if quest failed, just attempt it again (but idle time reset)
   bomber:
     cannot die;
     lose [danger]/[idle time] farm on quest attempt

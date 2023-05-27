@@ -224,23 +224,27 @@
               <div class="panel-body">
                 Chance of <span class="fail">death</span> was <span class="lastDeathChance value"></span>
               </div>         
-              <div class="panel-body">
-                You lose <span class="revertLevelsOnFail">10</span> last completed levels and all farm from them
-              </div>        
-              <div class="panel-body big">
-                <button class="btn btn-warning" onclick="revive()">
-                  <span class="continue">Revive</span> 
-                </button>
-              </div>          
-              <div class="panel-body big lifePositive hidden">
-                <button class="btn btn-warning" onclick="revive()">
-                  <span class="continue">Revive</span> 
-                  (<span class="life value">?</span>)
-                </button>
-              </div>        
-              <div class="panel-body big lifeNonPositive hidden">
-                <button class="btn btn-danger" onclick="wipeSave()">Restart</button>
-              </div>  
+              <div class="reverterOnly">
+                <div class="panel-body">
+                  You lose <span class="revertLevelsOnFail">???</span> last completed levels and all farm from them
+                </div>        
+                <div class="panel-body big">
+                  <button class="btn btn-warning" onclick="revive()">
+                    <span class="continue">Revert</span> 
+                  </button>
+                </div>          
+              </div>
+              <div class="nonReverterOnly">
+                <div class="panel-body big lifePositive">
+                  <button class="btn btn-warning" onclick="revive()">
+                    <span class="continue">Revive</span> 
+                    (<span class="life value">?</span>)
+                  </button>
+                </div>        
+                <div class="panel-body big lifeNonPositive">
+                  <button class="btn btn-danger" onclick="wipeSave()">Start new game</button>
+                </div>  
+              </div>
             </div>   
           </div>
         </div> 

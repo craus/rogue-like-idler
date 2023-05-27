@@ -154,6 +154,9 @@ function createRoguelike(params) {
       var shortIdleColumn = showFarmMultiplier || showEnergy || showLifetime
       $('.idleColumn').toggleClass('col-sm-2', shortIdleColumn)
       $('.idleColumn').toggleClass('col-sm-4', !shortIdleColumn)
+
+      $('.reverterOnly').toggle(currentCharacter == Characters.reverter)
+      $('.nonReverterOnly').toggle(currentCharacter != Characters.reverter)
       
       setFormattedText($('.idle2'), Math.round(resources.farm() / resources.farmIncome()))
       

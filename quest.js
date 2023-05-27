@@ -16,11 +16,11 @@ quest = function(params = {}) {
     baseQuality -= 2*power/10
     baseQuality += 2*Math.floor(resources.level()/100)
     
-    //baseQuality -= power/100
-    //baseQuality += Math.floor(resources.level()/1000)
+    baseQuality -= power/100
+    baseQuality += Math.floor(resources.level()/1000)
     
-    //baseQuality -= power/1000
-    //baseQuality += Math.floor(resources.level()/10000)
+    baseQuality -= power/1000
+    baseQuality += Math.floor(resources.level()/10000)
     
     var randomQuality = 0.6+0.2*Math.sin(0*power/14.19)
     //console.log("base quality", baseQuality)
@@ -105,7 +105,7 @@ quest = function(params = {}) {
         resources.level.change(x => x+1)
         this.reward.get()
       } else {
-        //resources.life.value -= this.damage
+        resources.life.value -= this.damage
         resources.activeLife.value -= 1
         this.lastDamage = this.damage
         resources.lastDeathChance.value = this.deathChance()

@@ -11,19 +11,21 @@ function characters() {
   questParams = {}
   startIdleValue = () => 0
 
-  var warrior = () => {}
-  var trader = () => {
+  Characters = {}
+
+  Characters.warrior = () => {}
+  Characters.trader = () => {
     startFarm = 10
     strengthIdlePower = 0
     farmRewardIdlePower = 1
   }
-  var builder = () => {
+  Characters.builder = () => {
     strengthIdlePower = 0
     farmReward = 0
     farmIncomeReward = 1
     startFarmIncome = 1
   }
-  var assassin = () => {
+  Characters.assassin = () => {
     questParams = {
       unlocksIn: function() {
         return this.farmCheck.difficulty / resources.farm() - resources.idle()
@@ -33,7 +35,7 @@ function characters() {
       }
     }
   }
-  var rogue = () => {
+  Characters.rogue = () => {
     questParams = {
       activate: function() {
         resources.life.value -= this.damage * this.deathChance()
@@ -57,11 +59,27 @@ function characters() {
       }
     }
   }
-  var noidler = () => {
+  Characters.reverter = () => {
+    questParams = {
+      activate: function() {
+        if (this.win()) {
+          resources.level.change(x => x+1)
+          this.reward.get()
+        } else {
+          resources.activeLife.value -= 1
+          resources.lastDeathChance.value = this.deathChance()
+          lastFailedQuest = this
+        }
+        resources.idle.reset()
+        refreshQuests()
+      }
+    }
+  }
+  Characters.noidler = () => {
     startIdleValue = () => 1
     startEnergy = 100
   }
-  noidler.after = () => {
+  Characters.noidler.after = () => {
     resources.idle.income = () => 0
     onLevelGot.listeners.push(level => {
       if (level % 1 == 0) {
@@ -69,5 +87,6 @@ function characters() {
       }
     })    
   }
-  currentCharacter = trader
+  currentCharacter = Characters.trader
+
 }

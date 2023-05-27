@@ -28,7 +28,7 @@ function characters() {
   Characters.assassin = () => {
     questParams = {
       unlocksIn: function() {
-        return this.farmCheck.difficulty / resources.farm() - resources.idle()
+        return 9 * this.farmCheck.difficulty / resources.farm() - resources.idle()
       },
       deathChance: function() {
         return this.ready() ? 0 : 1
@@ -92,6 +92,6 @@ function characters() {
       }
     })    
   }
-  currentCharacter = Characters.trader
+  currentCharacter = Characters.assassin
 
 }

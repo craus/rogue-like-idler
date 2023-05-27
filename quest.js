@@ -76,11 +76,14 @@ quest = function(params = {}) {
   result = Object.assign({
     damage: 1, 
     lastDamage: 1,
-    deathChance: function() {
+    baseDeathChance: function() {
       var d = this.farmCheck.difficulty
       var f = resources[this.farmCheck.farmType]()
       var p = f * Math.pow(resources.idle(), strengthIdlePower)
       return d / (p + d)
+    },
+    deathChance: function() {
+      return baseDeathChance
     },
     failText: function() {
       return this.lastDamage > 0 ? "death" : "fail"

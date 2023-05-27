@@ -61,7 +61,7 @@ function createRoguelike(params) {
   }
   
   characters()
-  currentCharacter()
+  currentCharacter.load()
   resources()
   items()
   checkpointsModule()
@@ -158,6 +158,8 @@ function createRoguelike(params) {
       setFormattedText($('.idle2'), Math.round(resources.farm() / resources.farmIncome()))
       
       setFormattedText($('.revertLevelsOnFail'), Characters.reverter.levelLostWhenDead)
+
+      setFormattedText($('.currentCharacter.name'), currentCharacter.name)
 
       $('.row.energy').toggle(resources.energy() > 0)
       $('.power').each(function() {

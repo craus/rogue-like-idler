@@ -11,83 +11,104 @@ function characters() {
   questParams = {}
   startIdleValue = () => 0
 
-  Characters = {}
+  Characters = {
+    warrior: {
+      name: "Warrior",
+      load: () => {}
+    },
+    trader: {
+      name: "Trader",
+      load: () => {
+        startFarm = 10
+        strengthIdlePower = 0
+        farmRewardIdlePower = 1
+      }
+    },
+    builder: {
+      name: "Builder",
+      load: () => {
+        strengthIdlePower = 0
+        farmReward = 0
+        farmIncomeReward = 1
+        startFarmIncome = 1
+      }      
+    },
+    assassin: {
+      name: "Assassin",
+      load: () => {
+        questParams = {
+          unlocksIn: function() {
+            return 9 * this.farmCheck.difficulty / resources.farm() - resources.idle()
+          },
+          deathChance: function() {
+            return this.ready() ? 0 : 1
+          }
+        }        
+      }
+    },
+    rogue: {
+      name: "Rogue",
+      load: () => {
+        questParams = {
+          activate: function() {
+            resources.life.value -= this.damage * this.deathChance()
+            this.lastDamage = this.damage * this.deathChance()
+            resources.lastDeathChance.value = this.deathChance()
 
-  Characters.warrior = () => {}
-  Characters.trader = () => {
-    startFarm = 10
-    strengthIdlePower = 0
-    farmRewardIdlePower = 1
-  }
-  Characters.builder = () => {
-    strengthIdlePower = 0
-    farmReward = 0
-    farmIncomeReward = 1
-    startFarmIncome = 1
-  }
-  Characters.assassin = () => {
-    questParams = {
-      unlocksIn: function() {
-        return 9 * this.farmCheck.difficulty / resources.farm() - resources.idle()
+            resources.level.change(x => x+1)
+
+            if (resources.life.value <= 0) {
+              resources.activeLife.value = 0
+            }
+
+            this.reward.get(1-this.deathChance())
+
+            resources.idle.reset()
+            refreshQuests()
+          }
+        }        
+      }
+    },
+    reverter: {
+      name: "Reverter",
+      levelLostWhenDead: 1,
+      load: () => {
+        questParams = {
+          activate: function() {
+            if (this.win()) {
+              resources.level.change(x => x+1)
+              this.reward.get()
+            } else {
+              resources.activeLife.value -= 1
+              resources.lastDeathChance.value = this.deathChance()
+              lastFailedQuest = this
+            }
+            resources.idle.reset()
+            refreshQuests()
+          }
+        }
+        window.revive = function() {
+          resources.activeLife.value += 1
+          loadCheckpoint(resources.level()-Characters.reverter.levelLostWhenDead)
+        }        
+      }
+    },
+    noidler: {
+      name: "Noidler",
+      after: () => {
+        resources.idle.income = () => 0
+        onLevelGot.listeners.push(level => {
+          if (level % 1 == 0) {
+            resources.energy.change(x => x + 6)
+          }
+        })    
       },
-      deathChance: function() {
-        return this.ready() ? 0 : 1
+      load: () => {
+        startIdleValue = () => 1
+        startEnergy = 100   
       }
-    }
+    },
   }
-  Characters.rogue = () => {
-    questParams = {
-      activate: function() {
-        resources.life.value -= this.damage * this.deathChance()
-        this.lastDamage = this.damage * this.deathChance()
-        resources.lastDeathChance.value = this.deathChance()
 
-        resources.level.change(x => x+1)
-
-        if (resources.life.value <= 0) {
-          resources.activeLife.value = 0
-        }
-
-        this.reward.get(1-this.deathChance())
-
-        resources.idle.reset()
-        refreshQuests()
-      }
-    }
-  }
-  Characters.reverter = () => {
-    Characters.reverter.levelLostWhenDead = 1
-    questParams = {
-      activate: function() {
-        if (this.win()) {
-          resources.level.change(x => x+1)
-          this.reward.get()
-        } else {
-          resources.activeLife.value -= 1
-          resources.lastDeathChance.value = this.deathChance()
-          lastFailedQuest = this
-        }
-        resources.idle.reset()
-        refreshQuests()
-      }
-    }
-    window.revive = function() {
-      resources.activeLife.value += 1
-      loadCheckpoint(resources.level()-Characters.reverter.levelLostWhenDead)
-    }    
-  }
-  Characters.noidler = () => {
-    startIdleValue = () => 1
-    startEnergy = 100
-  }
-  Characters.noidler.after = () => {
-    resources.idle.income = () => 0
-    onLevelGot.listeners.push(level => {
-      if (level % 1 == 0) {
-        resources.energy.change(x => x + 6)
-      }
-    })    
-  }
-  currentCharacter = Characters.rogue
-
+  currentCharacter = Characters.reverter
 }

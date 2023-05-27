@@ -60,6 +60,7 @@ function characters() {
     }
   }
   Characters.reverter = () => {
+    Characters.reverter.levelLostWhenDead = 1
     questParams = {
       activate: function() {
         if (this.win()) {
@@ -74,6 +75,10 @@ function characters() {
         refreshQuests()
       }
     }
+    window.revive = function() {
+      resources.activeLife.value += 1
+      loadCheckpoint(resources.level()-Characters.reverter.levelLostWhenDead)
+    }    
   }
   Characters.noidler = () => {
     startIdleValue = () => 1

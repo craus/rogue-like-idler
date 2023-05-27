@@ -68,11 +68,11 @@ var resources = function() {
     listeners: []
   })
 
-  // onLevelGot.listeners.push(level => {
-    // if (level % 10 == 0) {
-      // resources.life.change(x => x + 1)
-    // }
-  // })
+  onLevelGot.listeners.push(level => {
+    if (level % 10 == 0) {
+      resources.life.change(x => x + 1)
+    }
+  })
 
   onLevelGot.listeners.push(level => {
     if (level % 1 == 0) {

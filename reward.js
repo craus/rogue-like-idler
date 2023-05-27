@@ -17,7 +17,7 @@ var rewardByType = function(type, params) {
         farmResource.income.value += this.value() * farmIncomeReward
       },
       description: function() {
-        return "{0} {1}".i(large(this.value(), 2, 4, true), farmResource.name) 
+        return "{0} {1}{2}".i(large(this.value(), 2, 4, true), farmResource.name, farmIncomeReward > 0 ? "/s" : "") 
       }, 
       baseValue: function() {
         return this.amount

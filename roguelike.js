@@ -52,6 +52,13 @@ function createRoguelike(params) {
     }
     quests.each('paint')  
   }
+
+  window.revive = function() {
+    if (resources.life() < 1) {
+      return
+    }
+    resources.activeLife.value += 1
+  }
   
   characters()
   currentCharacter()
@@ -65,16 +72,6 @@ function createRoguelike(params) {
   
   window.quests = []
   window.lastFailedQuest = null
-  
-  var levelLostWhenDead = 1
-  
-  window.revive = function() {
-    // if (resources.life() < 1) {
-      // return
-    // }
-    resources.activeLife.value += 1
-    loadCheckpoint(resources.level()-levelLostWhenDead)
-  }
   
   $("body").keydown(e => {
     if (resources.activeLife() == 1) {
@@ -160,7 +157,7 @@ function createRoguelike(params) {
       
       setFormattedText($('.idle2'), Math.round(resources.farm() / resources.farmIncome()))
       
-      setFormattedText($('.revertLevelsOnFail'), levelLostWhenDead)
+      setFormattedText($('.revertLevelsOnFail'), Characters.reverter.levelLostWhenDead)
 
       $('.row.energy').toggle(resources.energy() > 0)
       $('.power').each(function() {

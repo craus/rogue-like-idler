@@ -31,7 +31,7 @@ quest = function(params = {}) {
     var rewards = {
       items: false,
       energy: false,
-      life: true
+      life: false
     }
 
     //console.log("quality", quality)

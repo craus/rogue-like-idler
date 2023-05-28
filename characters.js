@@ -74,23 +74,21 @@ function characters() {
       levelLostWhenDead: 1,
       load: () => {
         questParams = {
-          activate: function() {
-            if (this.win()) {
-              resources.level.change(x => x+1)
-              this.reward.get()
-            } else {
-              resources.activeLife.value -= 1
-              resources.lastDeathChance.value = this.deathChance()
-              lastFailedQuest = this
-            }
-            resources.idle.reset()
-            refreshQuests()
+          lose: function() {
+            resources.activeLife.value -= 1
+            resources.lastDeathChance.value = this.deathChance()
+            lastFailedQuest = this
           }
         }
         window.revive = function() {
           resources.activeLife.value += 1
           loadCheckpoint(resources.level()-Characters.reverter.levelLostWhenDead)
         }        
+      },
+      paint: function() {
+        $('.panel-life').toggle(false)
+        $('.panel-level').toggleClass('col-sm-2', false)
+        $('.panel-level').toggleClass('col-sm-4', true)
       }
     },
     noidler: {

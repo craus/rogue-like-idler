@@ -80,10 +80,6 @@ var resources = function() {
     }
   })
   
-  onLevelGot.listeners.push(level => {
-    saveLevelCheckpoint()
-  })
-
   // resetter({
     // id: 'lifeReset',
     // resource: 'life',

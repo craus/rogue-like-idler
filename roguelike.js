@@ -122,6 +122,8 @@ function createRoguelike(params) {
       Object.values(resources).each('paint')
       resetters.each('paint')
 
+      currentCharacter.paint()
+
       $('.alive').toggle(resources.activeLife() > 0)
       $('.dead').toggle(resources.activeLife() <= 0)
       $('.lifePositive').toggle(resources.life() > 0)
@@ -160,6 +162,7 @@ function createRoguelike(params) {
       setFormattedText($('.revertLevelsOnFail'), Characters.reverter.levelLostWhenDead)
 
       setFormattedText($('.currentCharacter.name'), currentCharacter.name)
+      setFormattedText($('.status.value'), "{0} {1}".i(currentCharacter.name, resources.time.format()));
 
       $('.row.energy').toggle(resources.energy() > 0)
       $('.power').each(function() {

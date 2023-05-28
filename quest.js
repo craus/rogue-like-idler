@@ -106,6 +106,7 @@ quest = function(params = {}) {
     win: function() {
       resources.level.change(x => x+1)
       this.reward.get()
+      window.saveLevelCheckpoint()
     },
     lose: function() {
       resources.life.value -= this.damage

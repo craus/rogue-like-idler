@@ -73,6 +73,14 @@ quest choose
 	default process:
 		add add add ban ban
 
+обеты
+	не брать квесты опаснее 10%
+	не ждать больше 100 секунд
+	не выполнять квесты 8 часов
+	всегда брать самый опасный квест
+	всегда брать самый дорогой квест
+	всегда брать самый безопасный квест
+	всегда брать самый дешёвый квест
 
 permanents:	
 	+X start idle bonus
@@ -149,6 +157,10 @@ items:
 		selfless: no rewards for 5 levels
 		brave: double death checks (OR) for 5 levels
 		renounce: lose all farm when taking reward next attempt
+	+Х power when idle time > T
+	+X farm after level L
+	xM power until level L
+	xM power on next level
 
 item expire in N levels
 

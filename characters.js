@@ -11,20 +11,30 @@ function characters() {
   questParams = {}
   startIdleValue = () => 0
 
+  var character = function(params) {
+    var result = params
+    result = Object.assign({
+      paint: function() {
+
+      }
+    }, params)
+    return result
+  }
+
   Characters = {
-    warrior: {
+    warrior: character({
       name: "Warrior",
       load: () => {}
-    },
-    trader: {
+    }),
+    trader: character({
       name: "Trader",
       load: () => {
         startFarm = 10
         strengthIdlePower = 0
         farmRewardIdlePower = 1
       }
-    },
-    builder: {
+    }),
+    builder: character({
       name: "Builder",
       load: () => {
         strengthIdlePower = 0
@@ -32,8 +42,8 @@ function characters() {
         farmIncomeReward = 1
         startFarmIncome = 1
       }      
-    },
-    assassin: {
+    }),
+    assassin: character({
       name: "Assassin",
       load: () => {
         questParams = {
@@ -45,8 +55,8 @@ function characters() {
           }
         }        
       }
-    },
-    rogue: {
+    }),
+    rogue: character({
       name: "Rogue",
       load: () => {
         questParams = {
@@ -68,8 +78,8 @@ function characters() {
           }
         }        
       }
-    },
-    reverter: {
+    }),
+    reverter: character({
       name: "Reverter",
       levelLostWhenDead: 1,
       load: () => {
@@ -90,8 +100,8 @@ function characters() {
         $('.panel-level').toggleClass('col-sm-2', false)
         $('.panel-level').toggleClass('col-sm-4', true)
       }
-    },
-    noidler: {
+    }),
+    noidler: character({
       name: "Noidler",
       after: () => {
         resources.idle.income = () => 0
@@ -105,8 +115,8 @@ function characters() {
         startIdleValue = () => 1
         startEnergy = 100   
       }
-    },
+    }),
   }
 
-  currentCharacter = Characters.reverter
+  currentCharacter = Characters.builder
 }

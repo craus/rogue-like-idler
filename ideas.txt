@@ -1,7 +1,11 @@
 features:
 	quest manacost
 		mana regen 1/s
-		checked on practice and appeared bad
+			checked on practice and appeared bad
+		mana regen growth exponentially with level
+		mana regen growth linearly with idle time
+		manacost reduced by (idle time) times
+
 	shadow twin: second run, you gain sqrt(his farm)
 	challenges: second run, you gain bonuses for certain achievements
 		gain as mush farm as possible in 1 minute
@@ -101,10 +105,14 @@ permanents:
 	you gain +1% farm each minute
 	you know actual outcomes of quests
 	if you complete 10 quests in a row, doubles your farm
-	gain power multiplier equal to winstreak length (if any)
+	winstreak: gain power multiplier equal to winstreak length (if any)
 	if you fail a quest, next attempt fail does not cause death
 	you may choose to move one level back instead of forth when completing quest
 	if you have exactly 1 life, gain x10 power multiplier
+	lifepower: your power is multiplied by lifes
+
+	negative
+		lose X% farm on win
 
 items:
 	implemented
@@ -137,7 +145,7 @@ items:
 			lose charges over time
 	+X idle power 
 	predict quest
-	lock quest
+	lock quest +
 	lock all quests until fail
 	+X idle time
 	duplicate item
@@ -161,6 +169,7 @@ items:
 	+X farm after level L
 	xM power until level L
 	xM power on next level
+	if idle time > T, you don't lose hp on death
 
 item expire in N levels
 
@@ -173,6 +182,12 @@ achievements:
 	proceed N levels in T seconds
 	multiply farm K times per click
 	do not lose life N levels in a row
+
+event
+	regeneration station
+		gain life in 10 seconds
+		each next cost x2 seconds more
+
   
 characters:
 	implemented
@@ -190,6 +205,12 @@ characters:
 	  	cannot fail quest;
 	  	spend life on quest equal to death chance;
 	  	has extra (1-death chance) farm and levelup multiplier 
+	  reverter:
+	  	cannot die, has no lifes;
+	  	on quest fail, revert last N completed quests (all level and farm from them)
+		ascender:
+			cannot die, has no lifes;
+			on quest fail, goes 1 level back
   gambler: 
     cannot die; 
     quests are locked and thus cannot be attempted; 
@@ -212,6 +233,10 @@ characters:
   bomber:
     cannot die;
     lose [danger]/[idle time] farm on quest attempt
+  archer:
+  	cannot die;
+  	danger drops at rate farm/10 per second
+  	cannot attempt quests with positive danger
     
 lists
 	quest traits
@@ -227,6 +252,12 @@ missions
 		reach level N
 		reach farm F
 		gain +X% farm at once
+		reach winstreak N
+		win with at least X% danger
+		lose with at most X% danger
+		choose left/middle/right quest N times in a row
+		reach idle time T
+
 	lose conditions
 		T seconds passed
 		fail a quest
@@ -234,4 +265,34 @@ missions
 		choose not the most dangerous quest
 		reach level N
 		reach farm F
+
+fake farm 
+	when you get farm, you lose that much fake farm
+unstable farm
+	lose all when die
+inactive farm
+	does not count on your side until being activated
+armor
+	lose some if required for not to die (+farm for this battle for each armor lost)
+
+elite quests
+	choose from 2
+	one quest, you can reroll 2 times
+	you don't see danger, need to experiment
+	lose 2 lifes instead of 1
+	lose half farm on fail
+	idle power is halved/doubled 
+	farm power is halved/doubled
+	stun T seconds on fail
+
+
+character items
+	default items
+		warrior power: battle strength scales with idle time
+		after win, you get BOTH your new and old farm (not max) (not new only)
+		you know danger of quest (no trials required)
+		each 10 levels, gain 1 life
+		you know all quests before choose (instead of discarding one to draw another)
+		you have 3 quests to choose (instead of 2) (or 1)
+	
 

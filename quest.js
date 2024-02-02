@@ -166,6 +166,9 @@ quest = function(params = {}) {
         panel.find('.unlocksIn'), 
         Format.time(this.unlocksIn())
       )
+
+      panel.toggleClass('hidden', !currentCharacter.isQuestVisible(this))
+
       panel.find('.choose').toggleClass('btn-warning', theftMode())
       panel.find('.choose').toggleClass('disabled', controlsLocked())
       panel.find('.choose').toggleClass('btn-primary', !theftMode() && this.ready())

@@ -16,6 +16,9 @@ function characters() {
     result = Object.assign({
       paint: function() {
 
+      },
+      isQuestVisible: function(quest) {
+        return true
       }
     }, params)
     return result
@@ -79,6 +82,29 @@ function characters() {
         }        
       }
     }),
+    ascender: character({
+      name: "Ascender",
+      levelLostWhenDead: 1,
+      load: () => {
+        questParams = {
+          lose: function() {
+            resources.level.value -= Characters.ascender.levelLostWhenDead
+            resources.activeLife.value -= 1
+            resources.lastDeathChance.value = this.deathChance()
+            lastFailedQuest = this
+          }
+        }   
+      },
+      paint: function() {
+        $('.panel-life').toggle(false)
+        $('.panel-level').toggleClass('col-sm-2', false)
+        $('.panel-level').toggleClass('col-sm-4', true)
+        $('.questPlaceholder').toggleClass('hidden', false)
+      },
+      isQuestVisible: function(quest) {
+        return quest == quests[1]
+      }
+    }),
     reverter: character({
       name: "Reverter",
       levelLostWhenDead: 1,
@@ -118,5 +144,5 @@ function characters() {
     }),
   }
 
-  currentCharacter = Characters.builder
+  currentCharacter = Characters.warrior
 }

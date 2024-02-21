@@ -143,6 +143,7 @@ function createRoguelike(params) {
       var showFarmMultiplier = resources.farmMultiplier() > 1
       var showEnergy = resources.energy() > 0
       var showLifetime = resources.lifetime.income() != 0
+      var showMana = true
       
       $('.farmColumn').toggleClass('col-sm-3', showFarmMultiplier)
       $('.farmColumn').toggleClass('col-sm-4', !showFarmMultiplier)
@@ -150,8 +151,8 @@ function createRoguelike(params) {
 
       $('.lifetimeColumn').toggle(showLifetime)
       $('.energyColumn').toggle(showEnergy)
-      var shortIdleColumn = showFarmMultiplier || showEnergy || showLifetime
-      $('.idleColumn').toggleClass('col-sm-2', shortIdleColumn)
+      var shortIdleColumn = showFarmMultiplier || showEnergy || showLifetime || showMana
+      //$('.idleColumn').toggleClass('col-sm-2', shortIdleColumn)
       $('.idleColumn').toggleClass('col-sm-4', !shortIdleColumn)
 
       $('.reverterOnly').toggle(currentCharacter == Characters.reverter)
@@ -160,6 +161,7 @@ function createRoguelike(params) {
       setFormattedText($('.idle2'), Math.round(resources.farm() / resources.farmIncome()))
       
       setFormattedText($('.revertLevelsOnFail'), Characters.reverter.levelLostWhenDead)
+      setFormattedText($('.skillFarmMultiplier'), large(skillFarmMultiplier()))
 
       setFormattedText($('.currentCharacter.name'), currentCharacter.name)
       setFormattedText($('.status.value'), "{0} {1}".i(currentCharacter.name, resources.time.format()));

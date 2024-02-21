@@ -150,6 +150,7 @@ items:
 	+X idle time
 	duplicate item
 	retry quest after fail
+	warning potion: if fail next quest, undo attempt (keep idle and seed)
 	convert all farm into farm income
 	convert fail risk into expected value
 	saveload

@@ -10,6 +10,7 @@ var resources = function() {
   }
   resources = {
     farm: farmResource('farm'),
+    skill: variable(1e7, 'skill', {formatter: large}),
     //nearm: farmResource('nearm'),
     farmIncome: variable(startFarmIncome, 'farmIncome', {formatter: large}),
     farmMultiplier: variable(1, 'farmMultiplier', {formatter: large}),
@@ -55,6 +56,12 @@ var resources = function() {
 
   resources.farm.income = resources.farmIncome
   resources.idle.income = () => 1
+  resources.skill.income = () => Math.pow(10, resources.level() / 100) * resources.idle()
+
+  window.skillCheckPower = () => 6 + resources.level() / 100
+  window.skillCheck = () => Math.pow(10, skillCheckPower())
+  window.skillFarmMultiplier = () => Math.log(resources.skill() / skillCheck() + 1) / Math.log(2)
+
   window.controlsLocked = () => resources.time() < resources.lastCommandMoment() + 1
   window.onCommand = () => resources.lastCommandMoment.value = resources.time()
 

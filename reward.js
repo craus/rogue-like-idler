@@ -11,7 +11,7 @@ var rewardByType = function(type, params) {
   if (type == "farm") {
     params.farmType = params.farmType || 'farm'
     var farmResource = resources[params.farmType]
-    return {
+    return Object.assign({
       get: function(amount = 1) {
         farmResource.value += this.value() * farmReward * amount
         farmResource.income.value += this.value() * farmIncomeReward * amount
@@ -30,7 +30,7 @@ var rewardByType = function(type, params) {
           ) * 
           questRewardMultiplier
       }
-    }
+    }, params)
   } 
   if (type == "empty") {
     return {

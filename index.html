@@ -42,7 +42,6 @@
   <script src="reward.js"></script> 
   <script src="quest.js"></script>
 
-  <script src="split_difficulty.js"></script>
   <script src="resetter.js"></script> 
   <script src="characters.js"></script> 
   <script src="items.js"></script> 
@@ -87,7 +86,7 @@
           </div> 
         </div>
         <div class="row centered">   
-          <div class="col-sm-4 farmColumn">       
+          <div class="col-sm-2 farmColumn">       
             <div class="farm panel panel-primary panel-readiness">
               <div class="panel-heading big left">
                 <span class="capitalized name">?</span>
@@ -98,6 +97,21 @@
               </div>
             </div>   
           </div>    
+          <div class="col-sm-4 skillColumn">       
+            <div class="skill panel panel-primary panel-readiness">
+              <div class="panel-heading big left">
+                <span class="capitalized name">?</span>
+              </div>
+              <div class="panel-body big left">
+                <span class="value">?</span> 
+                <span class="label label-primary">
+                  x<span class="skillFarmMultiplier">?</span>
+                </span> 
+                &nbsp
+                <span class="label label-success income">+?</span>
+              </div>
+            </div>   
+          </div>   
           <div class="col-sm-2 nearmColumn hidden">       
             <div class="nearm panel panel-primary panel-readiness">
               <div class="panel-heading big left">
@@ -122,7 +136,7 @@
           <div class="col-sm-2 idleColumn">       
             <div class="panel panel-primary">
               <div class="panel-heading big left">
-                Power
+                Idle
               </div>
               <div class="panel-body big left">
                 <span class="idle value">?</span> 

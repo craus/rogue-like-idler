@@ -3,7 +3,7 @@ quest = function(params = {}) {
   var powerRandom = function() {
     return gaussianRandom(
       0, 
-      0.5 * Math.pow(0*resources.level()+7, 0.25) - 0.1
+      1
     )
   }
   if (!result.farmCheck) {
@@ -11,18 +11,18 @@ quest = function(params = {}) {
     var randPower = powerRandom()
     var power = basePower + randPower
 
-    var baseQuality = 0
+    var baseQuality = -2
     
-    baseQuality -= 2*power/10
-    baseQuality += 2*Math.floor(resources.level()/100)
+    //baseQuality -= 2*power/10
+    // baseQuality += 2*Math.floor(resources.level()/100)
     
-    baseQuality -= power/100
-    baseQuality += Math.floor(resources.level()/1000)
+    // baseQuality -= power/100
+    // baseQuality += Math.floor(resources.level()/1000)
     
-    baseQuality -= power/1000
-    baseQuality += Math.floor(resources.level()/10000)
+    // baseQuality -= power/1000
+    // baseQuality += Math.floor(resources.level()/10000)
     
-    var randomQuality = 0.6+0.2*Math.sin(0*power/14.19)
+    var randomQuality = 1
     //console.log("base quality", baseQuality)
     // console.log("random quality", randomQuality)
     var quality = gaussianRandom(baseQuality, randomQuality)
@@ -60,7 +60,8 @@ quest = function(params = {}) {
       result.reward = reward('farm', {
         farmType: farmTypes.rnd(),
         amount: (Math.pow(10, quality + power) * 
-          resources.farmMultiplier()).round(2)
+          resources.farmMultiplier()).round(2) *
+          skillFarmMultiplier()
       })
     }
   } else {
@@ -99,6 +100,9 @@ quest = function(params = {}) {
     },
     unlocksIn: function() {
       return 0
+    },
+    enabled: function() {
+      return !controlsLocked()
     },
     winEvent: function() {
       return rndEvent(1-this.deathChance())
@@ -154,6 +158,7 @@ quest = function(params = {}) {
       panel.find('.unlocksInLine').toggle(!this.ready())
       setFormattedText(panel.find('.farmCheckType'), result.farmCheck.farmType.capitalize())
       setFormattedText(panel.find('.danger'), large(result.farmCheck.difficulty, 2))
+      setFormattedText(panel.find('.manacost'), large(result.manacost, 2))
       setFormattedText(
         panel.find('.deathChance'), 
         Format.percent(this.deathChance(), 2)
@@ -170,7 +175,7 @@ quest = function(params = {}) {
       panel.toggleClass('hidden', !currentCharacter.isQuestVisible(this))
 
       panel.find('.choose').toggleClass('btn-warning', theftMode())
-      panel.find('.choose').toggleClass('disabled', controlsLocked())
+      panel.find('.choose').toggleClass('disabled', !this.enabled())
       panel.find('.choose').toggleClass('btn-primary', !theftMode() && this.ready())
       panel.find('.choose').toggleClass('btn-danger', !theftMode() && !this.ready())
       setFormattedText(panel.find('.choose'), resources.activeTheft() == 0 ? 'Choose' : 'Steal')

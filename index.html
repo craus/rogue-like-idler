@@ -38,13 +38,9 @@
   <script src="gaussed.js"></script>  
   <script src="bot.js"></script> 
   
-  <script src="effect.js"></script> 
   <script src="reward.js"></script> 
-  <script src="quest.js"></script>
+  <script src="market.js"></script>
 
-  <script src="resetter.js"></script> 
-  <script src="characters.js"></script> 
-  <script src="items.js"></script> 
   <script src="resources.js"></script> 
   <script src="checkpoints.js"></script> 
   <script src="roguelike.js"></script> 
@@ -54,7 +50,9 @@
 
 <body>
 
-<span class="status value">?</span>
+<div class="panel-heading small">
+  <span class="time value">?</span>
+</div>
 
 <div class="container"> 
   <ul class="nav nav-tabs sections">
@@ -86,193 +84,40 @@
           </div> 
         </div>
         <div class="row centered">   
-          <div class="col-sm-2 farmColumn">       
-            <div class="farm panel panel-primary panel-readiness">
+          <div class="col-sm-12 moneyColumn">       
+            <div class="money panel panel-primary panel-readiness">
               <div class="panel-heading big left">
                 <span class="capitalized name">?</span>
               </div>
               <div class="panel-body big left">
                 <span class="value">?</span> 
                 <span class="label label-success income">+?</span>
-              </div>
-            </div>   
-          </div>    
-          <div class="col-sm-4 skillColumn">       
-            <div class="skill panel panel-primary panel-readiness">
-              <div class="panel-heading big left">
-                <span class="capitalized name">?</span>
-              </div>
-              <div class="panel-body big left">
-                <span class="value">?</span> 
-                <span class="label label-primary">
-                  x<span class="skillFarmMultiplier">?</span>
-                </span> 
-                &nbsp
-                <span class="label label-success income">+?</span>
-              </div>
-            </div>   
-          </div>   
-          <div class="col-sm-2 nearmColumn hidden">       
-            <div class="nearm panel panel-primary panel-readiness">
-              <div class="panel-heading big left">
-                <span class="capitalized name">?</span>
-              </div>
-              <div class="panel-body big left">
-                <span class="value">?</span> 
-                <span class="label label-success income">+?</span>
-              </div>
-            </div>   
-          </div>    
-          <div class="col-sm-3 farmMultiplierColumn">       
-            <div class="panel panel-primary panel-readiness">
-              <div class="panel-heading big left">
-                Farm Multiplier
-              </div>
-              <div class="panel-body big left">
-                <span class="farmMultiplier value">?</span> 
               </div>
             </div>   
           </div>     
-          <div class="col-sm-2 idleColumn">       
-            <div class="panel panel-primary">
-              <div class="panel-heading big left">
-                Idle
-              </div>
-              <div class="panel-body big left">
-                <span class="idle value">?</span> 
-                <span class="idle2 value">?</span>
-              </div>
-            </div>     
-          </div>  
-          <div class="col-sm-2 lifetimeColumn lifetime">       
-            <div class="panel panel-primary">
-              <div class="panel-heading big left">
-                Time
-              </div>
-              <div class="panel-body big left">
-                <span class="value">?</span> 
-              </div>
-            </div>     
-          </div>  
-          <div class="col-sm-2 energyColumn">       
-            <div class="panel panel-primary panel-readiness">
-              <div class="panel-heading big left">
-                Energy 
-              </div>
-              <div class="panel-body big left">
-                <span class="energy value">?</span> 
-              </div>
-            </div>   
-          </div>
-          <div class="panel-level col-sm-2">       
-            <div class="panel panel-primary">
-              <div class="panel-heading big left">
-                Level
-              </div>
-              <div class="panel-body big left">
-                <span class="level value">?</span> 
-              </div>
-            </div>     
-          </div>
-          <div class="panel-life col-sm-2">       
-            <div class="panel panel-primary panel-life life">
-              <div class="panel-heading big left">
-                Life 
-              </div>
-              <div class="panel-body big left">
-                <span class="value">?</span>
-                <span class="showWhenLimited">
-                  /
-                  <span class="maxValue">?</span>
-                </span>
-              </div>
-            </div>   
-          </div>
         </div>  
         
-        <div class="row centered quests alive">
-          <div class="col-sm-4 hidden questPlaceholder"> 
+        <div class="row centered markets alive">
+          <div class="col-sm-4 marketPlaceholder"> 
           </div>
-          <div class="col-sm-4 hidden questSample">    
+          <div class="col-sm-4 hidden marketSample">    
             <div class="panel panel-default panel-readiness">   
+              <div class="panel-heading big population">
+                Level <span class="level"></span>
+              </div>
               <div class="panel-body big population">
-                <div class="line">Danger: <span class="danger"></span></div>
-                <div class="line deathChanceLine"><span class=failName>Death</span> chance: <span class="deathChance"></span></div>
-                <div class="line unlocksInLine">Unlocks in: <span class="unlocksIn"></span></div>
+                <div class="line">Cost: <span class="price"></span></div>
                 <div class="line">
                   Reward: 
                   <span class="reward"></span> 
-                  <span class="itemType showWhenLimited">
-                    (full)
-                  </span>
                 </div>
+                <button type="button" class="btn btn-primary discard">Discard</button> 
                 <button type="button" class="btn btn-primary choose">Choose</button> 
               </div>
             </div>   
           </div>
         </div> 
-        <div class="row centered energy alive hidden">
-          <button type="button" class="btn btn-warning btn-energy power" data-value="1">
-            Power <span class="value">?</span>
-          </button> 
-          <button type="button" class="btn btn-warning btn-energy power" data-value="10">
-            Power <span class="value">?</span>
-          </button> 
-          <button type="button" class="btn btn-warning btn-energy power" data-value="100">
-            Power <span class="value">?</span>
-          </button> 
-          <button type="button" class="btn btn-warning btn-energy power" data-value="1000">
-            Power <span class="value">?</span>
-          </button> 
-        </div>
-        <br>
-        <div class="row centered effects alive hidden">
-          <span class="label big label-default lifeReset">
-            <span class="value">?</span>
-            <span class="resource">?</span>
-            at level
-            <span class="nextTrigger">?</span>
-          </span>
-        </div>
-        <br>
-        <div class="row centered items alive">
-          <button type="button" class="btn btn-primary hideIfZero itemButtonSample hidden">
-            <span class="name">?</span> <span class="limit">(<span class="value">?</span>)</span>
-          </button> 
-        </div>
-        <div class="row centered dead">
-          <div class="col-sm-12">    
-            <div class="panel panel-danger panel-readiness">   
-              <div class="panel-body big">
-                YOU <span class="failed">DEAD</span>
-              </div>          
-              <div class="panel-body">
-                Chance of <span class="fail">death</span> was <span class="lastDeathChance value"></span>
-              </div>         
-              <div class="reverterOnly">
-                <div class="panel-body">
-                  You lose <span class="revertLevelsOnFail">???</span> last completed levels and all farm from them
-                </div>        
-                <div class="panel-body big">
-                  <button class="btn btn-warning" onclick="revive()">
-                    <span class="continue">Revert</span> 
-                  </button>
-                </div>          
-              </div>
-              <div class="nonReverterOnly">
-                <div class="panel-body big lifePositive">
-                  <button class="btn btn-warning" onclick="revive()">
-                    <span class="continue">Revive</span> 
-                    (<span class="life value">?</span>)
-                  </button>
-                </div>        
-                <div class="panel-body big lifeNonPositive">
-                  <button class="btn btn-danger" onclick="wipeSave()">Start new game</button>
-                </div>  
-              </div>
-            </div>   
-          </div>
-        </div> 
+
       </div> 
     </div>    
     <div id="rulesTab" class="tab-pane fade">

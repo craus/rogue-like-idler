@@ -225,10 +225,17 @@ const Format = {
     if (x >= Number.POSITIVE_INFINITY) {
       return '#{0}&nbsp;s'.i(large(x))
     }
-    return moment.duration(x,'s').format(
-      "d [d] hh:mm:ss", 
-      { trim: "large", precision: 1 }
-    )
+    if (x > 60) {
+      return moment.duration(x,'s').format(
+        "d [d] hh:mm:ss", 
+        { trim: "large", precision: 1 }
+      )
+    } else {
+      return moment.duration(x,'s').format(
+        "mm:ss", 
+        { trim: false, precision: 1 }
+      )      
+    }
   },
   percent: function(x, digits) {
     return '#{0}%'.i((x*100).toFixed(digits))

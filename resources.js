@@ -8,11 +8,26 @@ var resources = function() {
     farmTypes.push(name)
     return variable(startFarm, name, {formatter: large, incomeFormatter: x => noZero(signed(large(x)))})
   }
+
+  var n = 3
+
   var incomeMultipliers = [
-    [[2, 30], [3, 40], [5, 50]],
-    [[3, 20], [5, 60], [10, 80]],
-    [[4, 7], [6, 25], [12, 120]],
+    [[2, 30, 100], [3, 400, 1], [5, 50, 100]],
+    [[3, 20, 100], [5, 60, 100], [2, 80, 1]],
+    [[4, 75, 1], [6, 25, 100], [3, 120, 100]],
   ]
+
+  var m = [[], [], []]
+
+  for (let i = 0; i < n; i++) {
+    for (let j = 0; j < n; j++) {
+      m[i][j] = incomeMultipliers[i][j]
+      m[i][j] = Math.log(m[i][j][0]) / Math.log(m[i][j][1])
+    }
+  }
+  console.log(m)
+
+
   var resourceNames = [
     'gold',
     'energy',
@@ -41,6 +56,7 @@ var resources = function() {
 
       createMultiplier({
         costResource: resources[resourceNames[i]], 
+        baseCost: incomeMultipliers[i][j][2],
         costMultiplier: incomeMultipliers[i][j][1],
         rewardResource: resources[id(i,j)], 
         reward: () => 1, 

@@ -1,26 +1,18 @@
 market = function(params = {}) {
   var result = params
-  var powerRandom = function() {
-    return gaussianRandom(
-      0, 
-      1
-    )
-  }
 
   if (!result.level) {
     result.level = resources.level()
 
     var basePower = 0.1 * resources.level()
-    var randPower = powerRandom()
+    var randPower = gaussianRandom(0, 1)
     var power = basePower + randPower
 
-    var baseQuality = -3
+    var baseQuality = -2
+    baseQuality -= 2 * Math.log(Math.max(power, 1)) / Math.log(10)
     
-    var randomQuality = 1
+    var randomQuality = 0.5
     var quality = gaussianRandom(baseQuality, randomQuality)
-
-    var energyAmount = () => 6 * Math.pow(10, resources.level()/1000) * Math.pow(4, randPower)
-
 
     result.price = Math.pow(10, power).round(2)
     result.reward = Math.pow(10, quality + power)

@@ -27,7 +27,6 @@ function createRoguelike(params) {
     Object.values(resources).forEach(function(resource) {
       savedata[resource.id] = resource.save()
     })
-    savedata.markets = markets.map(q => q.save())
     savedata.realTime = timestamp || Date.now()
     localStorage[saveName] = JSON.stringify(savedata)
   } 
@@ -37,47 +36,15 @@ function createRoguelike(params) {
     localStorage.removeItem(saveName)
     location.reload()
   }
-  
-  window.refreshMarkets = function() {
-    if (!!markets) {
-      markets.each('destroy')
-    }
-    markets = []
-    for (var i = 0; i < 1; i++) {
-      markets.push(market())
-    }
-    markets.each('paint')  
-  }
 
   resources()
   
-  window.markets = []
-
-  $("body").keydown(e => {
-    if (e.key == "ArrowLeft") {
-      markets[0].discard();
-    } else if (e.key == "ArrowRight") {
-      markets[0].choose();
-    }
-    if (e.originalEvent.code == "KeyR" && e.shiftKey) {
-      wipeSave()
-    }
-  })
-  
-  if (!!savedata.markets) {
-    console.log("load markets: ", savedata.markets)
-    markets = savedata.markets.map(market)
-  } else {
-    refreshMarkets()
-  }
-
   var result = {
     paint: function() {
       debug.profile('paint')
       
       Object.values(resources).each('paint')
-
-      markets.each('paint')
+      Object.values(multipliers).each('paint')
 
       debug.unprofile('paint')
     },

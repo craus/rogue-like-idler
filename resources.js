@@ -50,31 +50,23 @@ var resources = function() {
 
   window.multipliers = []
 
-  for (var i = 0; i < resourceNames.length; i++) {
-    for (var j = 0; j < resourceNames.length; j++) {
-      resources[id(i,j)] = variable(0, id(i,j))
+  resources.gold.income = () => 1
 
-      createMultiplier({
-        costResource: resources[resourceNames[i]], 
-        baseCost: incomeMultipliers[i][j][2],
-        costMultiplier: incomeMultipliers[i][j][1],
-        rewardResource: resources[id(i,j)], 
-        reward: () => 1, 
-        resourceName: resourceNames[j],
-        value: incomeMultipliers[i][j][0],
-      })
-    }
-  }
+  createMultiplier({
+    costResource: resources.gold, 
+    baseCost: 10,
+    incomeMultiplier: 1.1,
+    costMultiplier: 1.12,
+    resource: resources.gold,
+  })
 
-  for (let j = 0; j < resourceNames.length; j++) {
-    resources[resourceNames[j]].income = () => {
-      var result = 1
-      for (var i = 0; i < resourceNames.length; i++) {
-        result *= Math.pow(incomeMultipliers[i][j][0], resources[id(i,j)]())
-      }
-      return result
-    }
-  }
+  createMultiplier({
+    costResource: resources.gold, 
+    baseCost: 1,
+    incomeMultiplier: 2,
+    costMultiplier: 80,
+    resource: resources.gold,
+  })
 
   resources.time.income = () => 1
 

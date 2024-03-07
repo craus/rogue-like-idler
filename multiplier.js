@@ -47,7 +47,6 @@ var createMultiplier = function(params)
       return Math.pow(params.incomeMultiplier, resource())
     },
     paint: function() {
-      panel.find('.tillBlock').toggleClass('hidden', available())
       setFormattedText(panel.find('.cost'), large(cost()))
       setFormattedText(panel.find('.value'), params.incomeMultiplier)
       setFormattedText(panel.find('.amount'), resource())

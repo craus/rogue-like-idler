@@ -18,7 +18,7 @@ variable = function(initialValue, id, params) {
     initialValue = savedata[id]
   }
   var formatter = params.formatter || Format.integer
-  var incomeFormatter = params.incomeFormatter || (function(x) { return noZero(signed(large((x+eps)))) })
+  var incomeFormatter = params.incomeFormatter || (function(x) { return noZero(signed(large((x)))) })
   var result = v(initialValue)
 
   return Object.assign(result, {

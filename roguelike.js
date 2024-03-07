@@ -38,13 +38,13 @@ function createRoguelike(params) {
   }
 
   resources()
-  
+
   var result = {
     paint: function() {
       debug.profile('paint')
       
       Object.values(resources).each('paint')
-      Object.values(multipliers).each('paint')
+      Object.values(stores).each('paint')
 
       debug.unprofile('paint')
     },

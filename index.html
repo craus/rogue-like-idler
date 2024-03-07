@@ -40,7 +40,7 @@
   
   <script src="reward.js"></script> 
   <script src="market.js"></script>
-  <script src="multiplier.js"></script>
+  <script src="store.js"></script>
 
   <script src="resources.js"></script> 
   <script src="checkpoints.js"></script> 
@@ -64,52 +64,59 @@
   <div class="tab-content">
     <div id="gameTab" class="tab-pane fade active in">
       <div class="container"> 
-        <br> 
-        <div class="row centered hidden">   
-          <div class="col-md-12 farmColumn"> 
-            <div class="panel panel-primary panel-readiness">
-              <div class="panel-heading big left">
-                Level
-                <span class="level value">?</span>
-              </div>
-            </div>  
-          </div>
-        </div>
-        <div class="row centered hidden">   
-          <div class="col-sm-12">       
-            <div class="panel panel-primary">
-              <div class="panel-heading big left">
-                <span class="currentCharacter name">?</span>
-              </div>
-            </div>   
-          </div> 
-        </div>
         <div class="row centered">   
           <div class="col-sm-12">       
-            <div class="gold panel panel-primary panel-readiness">
+            <div class="mana panel panel-primary panel-readiness">
               <div class="panel-heading big left">
                 <span class="capitalized name">?</span>
               </div>
               <div class="panel-body big left">
-                <span class="value">?</span> 
-                <span class="label label-success income">+?</span>
+                <div>
+                  <span class="value">?</span> 
+                  <span class="label label-success income">+?</span>
+                </div>
+                <br>
+                <div class="btn-group" role="group">
+                  <button type="button" class="btn btn-primary buy">
+                    Gain
+                  </button> 
+                </div>
               </div>
             </div>   
           </div>  
         </div>
-        
-        <div class="row centered multipliers">
-          <div class="col-sm-4 hidden multiplierSample">    
-            <div class="panel panel-default">   
-              <div class="panel-heading">
-                <span class="resourceName">???</span> x<span class="value">???</span> (<span class=amount>???</span>)
+
+        <div class="row centered">
+          <div class="col-sm-4">    
+            <div class="panel panel-primary manaCrystals">   
+              <div class="panel-heading big">
+                Mana crystals (<span class="value">???</span>)
               </div>
               <div class="panel-body">
+                Each mana crystal gain 1 mana per second.
+                <br><br>
                 <div class="btn-group btn-group-justified">
                   <div class="btn-group" role="group">
                     <button type="button" class="btn btn-primary buy">
-                      <span class="cost">???</span> <span class="costResource">???</span> 
-                      <span class="tillBlock">(<span class="till">???</span>)</span>
+                      Buy one (<span class="cost">???</span> mana)
+                    </button> 
+                  </div>
+                </div>
+              </div>
+            </div>   
+          </div>
+          <div class="col-sm-4">    
+            <div class="panel panel-primary amplifiers">   
+              <div class="panel-heading big">
+                Amplifiers (<span class="value">???</span>)
+              </div>
+              <div class="panel-body">
+                Each amplifier doubles your mana income.
+                <br><br>
+                <div class="btn-group btn-group-justified">
+                  <div class="btn-group" role="group">
+                    <button type="button" class="btn btn-primary buy">
+                      Buy one (<span class="cost">???</span> mana crystals)
                     </button> 
                   </div>
                 </div>

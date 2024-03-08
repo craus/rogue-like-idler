@@ -65,7 +65,7 @@
     <div id="gameTab" class="tab-pane fade active in">
       <div class="container"> 
         <div class="row centered">   
-          <div class="col-sm-12">       
+          <div class="col-sm-6">       
             <div class="mana panel panel-primary panel-readiness">
               <div class="panel-heading big left">
                 <span class="capitalized name">?</span>
@@ -75,11 +75,18 @@
                   <span class="value">?</span> 
                   <span class="label label-success income">+?</span>
                 </div>
-                <br>
-                <div class="btn-group" role="group">
-                  <button type="button" class="btn btn-primary buy">
-                    Gain
-                  </button> 
+              </div>
+            </div>   
+          </div>     
+          <div class="col-sm-6">       
+            <div class="panel panel-primary panel-readiness">
+              <div class="panel-heading big left">
+                <span class="capitalized name">Period</span>
+              </div>
+              <div class="panel-body big left">
+                <div>
+                  <span class="period">?</span> 
+                  <span class="label label-success remainingTime">?</span>
                 </div>
               </div>
             </div>   
@@ -93,7 +100,8 @@
                 Mana crystals (<span class="value">???</span>)
               </div>
               <div class="panel-body">
-                Each mana crystal gain 1 mana per second.
+                Each mana crystal gain <span class="oneGain">???</span> mana 
+                each period.
                 <br><br>
                 <div class="btn-group btn-group-justified">
                   <div class="btn-group" role="group">
@@ -111,7 +119,25 @@
                 Amplifiers (<span class="value">???</span>)
               </div>
               <div class="panel-body">
-                Each amplifier doubles your mana income.
+                Each amplifier triples mana gain but doubles period.
+                <br><br>
+                <div class="btn-group btn-group-justified">
+                  <div class="btn-group" role="group">
+                    <button type="button" class="btn btn-primary buy">
+                      Buy one (<span class="cost">???</span> mana crystals)
+                    </button> 
+                  </div>
+                </div>
+              </div>
+            </div>   
+          </div>
+          <div class="col-sm-4">    
+            <div class="panel panel-primary boosters">   
+              <div class="panel-heading big">
+                Boosters (<span class="value">???</span>)
+              </div>
+              <div class="panel-body">
+                Each booster shorten period by 5 times.
                 <br><br>
                 <div class="btn-group btn-group-justified">
                   <div class="btn-group" role="group">

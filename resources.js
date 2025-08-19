@@ -54,7 +54,7 @@ var resources = function() {
 
   createMultiplier({
     costResource: resources.gold, 
-    baseCost: 10,
+    baseCost: 1,
     incomeMultiplier: 1.1,
     costMultiplier: 1.12,
     resource: resources.gold,
@@ -62,7 +62,7 @@ var resources = function() {
 
   createMultiplier({
     costResource: resources.gold, 
-    baseCost: 1,
+    baseCost: 100,
     incomeMultiplier: 2,
     costMultiplier: 80,
     resource: resources.gold,

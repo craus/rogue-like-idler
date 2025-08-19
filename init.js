@@ -44,7 +44,7 @@ var init = function() {
         $.bootstrapSortable({ applyLast: true })
       }
     }
-  }, 100)
+  }, 10)
 
   window.onkeydown = function(e) {
     console.log("keydown", e)

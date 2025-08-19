@@ -51,11 +51,15 @@ var resources = function() {
   window.multipliers = []
 
   resources.gold.income = () => 
-    100 * 
+    1e3 * 
     Math.pow(resources.workers(), 0.9) * 
-    Math.pow(resources.efficiency(), 0.1) * 
+    Math.pow(resources.efficiency(), 1) * 
     resources.idle()
-  resources.efficiency.income = () => resources.workers() * 1e-100 * resources.idle()
+
+  resources.efficiency.income = () => 
+    1e-7 * 
+    Math.pow(resources.workers(), 0.1) * 
+    Math.pow(resources.idle(), 3)
 
   resources.time.income = () => 1
 

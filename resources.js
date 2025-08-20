@@ -35,8 +35,7 @@ var resources = function() {
   ]
   resources = {
     gold: variable(0, 'gold'),
-    energy: variable(0, 'energy'),
-    gems: variable(0, 'gems'),
+    goldIncome: variable(1000, 'goldIncome'),
     time: variable(0, 'time', {formatter: Format.time}),
     lifetime: variable(30, 'lifetime', {name: 'time', formatter: Format.time}),
     idle: variable(0, 'idle', {
@@ -50,25 +49,24 @@ var resources = function() {
 
   window.multipliers = []
 
-  resources.gold.income = () => 1
+  resources.gold.income = () => 0.1 * resources.goldIncome()
 
-  createMultiplier({
-    costResource: resources.gold, 
-    baseCost: 1,
-    incomeMultiplier: 1.1,
-    costMultiplier: 1.12,
-    resource: resources.gold,
-  })
-
-  createMultiplier({
-    costResource: resources.gold, 
-    baseCost: 100,
-    incomeMultiplier: 2,
-    costMultiplier: 80,
-    resource: resources.gold,
-  })
+  createMultiplier(7)
+  createMultiplier(30)
+  createMultiplier(2000)
+  createMultiplier(5000)
+  createMultiplier(13000)
+  createMultiplier(130000)
 
   resources.time.income = () => 1
+
+  window.cost = () => {
+    var result = 1
+    for (let i = 0; i < multipliers.length; i++) {
+      result *= multipliers[i].value()
+    }
+    return result
+  }
 
   window.resetPower = function() {
     resources.lifetime.value += resources.idle()

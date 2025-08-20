@@ -38,6 +38,11 @@ function createRoguelike(params) {
   }
 
   resources()
+
+  $('.launch').click(() => {
+    resources.gold.value -= cost()
+    resources.goldIncome.value = cost()
+  })
   
   var result = {
     paint: function() {
@@ -45,6 +50,9 @@ function createRoguelike(params) {
       
       Object.values(resources).each('paint')
       Object.values(multipliers).each('paint')
+
+      setFormattedText($('.cost'), Format.integer(cost()))
+      $('.launch').toggleClass('disabled', resources.gold() < cost())
 
       debug.unprofile('paint')
     },

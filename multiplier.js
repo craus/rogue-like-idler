@@ -6,60 +6,38 @@
   //   resource: resources.gold,
   // })
 
-var createMultiplier = function(params)
+var createMultiplier = function(multiplier)
 {
-  if (params.resource.multipliers == undefined) {
-    params.resource.multipliers = []
-    var oldIncome = params.resource.income
-    params.resource.income = () => {
-      var result = oldIncome()
-      for (let i = 0; i < params.resource.multipliers.length; i++) {
-        result *= params.resource.multipliers[i].value()
-      }
-      return result
-    }
-  }
-
-  var name = params.resource.name + 'Multiplier' + params.resource.multipliers.length
+  var name = 'Multiplier' + multipliers.length
 
   var resource = variable(0, name)
   resources[name] = resource
 
-  var cost = () => params.baseCost * Math.pow(params.costMultiplier, resource())
-
   var panel = instantiate('multiplierSample')
   $('.multipliers').append(panel)
-  panel.find('.buy').click(() => {
-    params.costResource.value -= cost()
+
+  var atMax = () => resource.value == 1;
+  var atMin = () => resource.value == 0;
+
+  panel.find('.more').click(() => {
     resource.value += 1
+  })  
+  panel.find('.less').click(() => {
+    resource.value -= 1
   })
 
-  setFormattedText(panel.find('.resourceName'), params.resource.name)
-  setFormattedText(panel.find('.value'), params.value)
-  setFormattedText(panel.find('.costResource'), params.costResource.id)
-
-  var available = function() {
-    return params.costResource() >= cost()
-  }
+  setFormattedText(panel.find('.value'), multiplier)
 
   var result = {
     value: function() {
-      return Math.pow(params.incomeMultiplier, resource())
+      return Math.pow(multiplier, resource())
     },
     paint: function() {
-      panel.find('.tillBlock').toggleClass('hidden', available())
-      setFormattedText(panel.find('.cost'), large(cost()))
-      setFormattedText(panel.find('.value'), params.incomeMultiplier)
       setFormattedText(panel.find('.amount'), resource())
-      panel.find('.buy').toggleClass('disabled', !available())
-      panel.find('.tillBlock').toggleClass('hidden', available())
-      setFormattedText(
-        panel.find('.till'), 
-        Format.time((cost() - params.costResource()) / params.costResource.income())
-      )
+      panel.find('.more').toggleClass('disabled', atMax())
+      panel.find('.less').toggleClass('disabled', atMin())
     }
   }
 
   multipliers.push(result)
-  params.resource.multipliers.push(result)
 }

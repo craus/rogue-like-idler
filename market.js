@@ -20,7 +20,7 @@ market = function(params = {}) {
 
     var baseQuality = 0
 
-    var randomQuality = 0.5
+    var randomQuality = 0
     var quality = gaussianRandom(baseQuality, randomQuality)
 
     var freePrice = 1
@@ -66,6 +66,7 @@ market = function(params = {}) {
         resources.level.value -= 1
       }
       refreshMarkets()
+      resources.idle.reset()
     },
     paint: function() {
       setFormattedText(panel.find('.level'), this.level)

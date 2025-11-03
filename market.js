@@ -11,7 +11,7 @@ market = function(params = {}) {
 
     var duration = Math.floor(1 / Math.random())
     while (result.level == 0 && duration > 10) {
-      duration = Math.floor(1 / Math.random())
+      duration = Math.ceiling(1 / Math.random())
     }
 
     var chance = Math.random()

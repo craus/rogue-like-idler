@@ -9,9 +9,11 @@ market = function(params = {}) {
     var randPower = gaussianRandom(0, 1)
     var power = basePower + randPower
 
-    var duration = Math.floor(1 / Math.random())
+    var randomDuration = () => Math.floor(1 / Math.pow(Math.random(), 1.2))
+
+    var duration = randomDuration()
     while (result.level == 0 && duration > 10) {
-      duration = Math.ceiling(1 / Math.random())
+      duration = randomDuration()
     }
 
     var chance = Math.random()

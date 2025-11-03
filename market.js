@@ -1,10 +1,8 @@
 market = function(params = {}) {
-  console.log("market: ", params)
   var result = params
 
   if (result.level == undefined) {
 
-    console.log("create new market: ", params)
     result.level = resources.level()
 
     var basePower = 0.1 * resources.level()

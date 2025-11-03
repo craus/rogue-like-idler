@@ -39,6 +39,8 @@ function createRoguelike(params) {
   }
   
   window.refreshMarkets = function() {
+    console.log("refreshMarkets")
+
     if (!!markets) {
       markets.each('destroy')
     }
@@ -65,7 +67,6 @@ function createRoguelike(params) {
   })
   
   if (!!savedata.markets) {
-    console.log("load markets: ", savedata.markets)
     markets = savedata.markets.map(market)
   } else {
     refreshMarkets()

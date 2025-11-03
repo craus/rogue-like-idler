@@ -9,8 +9,8 @@ var resources = function() {
     return variable(startFarm, name, {formatter: large, incomeFormatter: x => noZero(signed(large(x)))})
   }
   resources = {
-    money: variable(0, 'money'),
-    moneyIncome: variable(1, 'moneyIncome'),
+    money: variable(0, 'money', {formatter: large}),
+    moneyIncome: variable(0, 'moneyIncome'),
     time: variable(0, 'time', {formatter: Format.time}),
     lifetime: variable(30, 'lifetime', {name: 'time', formatter: Format.time}),
     level: variable(0, 'level', {formatter: large}),

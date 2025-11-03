@@ -10,19 +10,26 @@ market = function(params = {}) {
     var power = basePower + randPower
 
     var duration = Math.floor(1 / Math.random())
+    while (result.level == 0 && duration > 10) {
+      duration = Math.floor(1 / Math.random())
+    }
 
     var chance = Math.random()
 
-    var baseQuality = -2
+    var baseQuality = 0
 
     var randomQuality = 0.5
     var quality = gaussianRandom(baseQuality, randomQuality)
 
+    var freePrice = 1
+
     result.price = Math.pow(10, power).round(2)
+    if (result.level == 0) result.price = 0
     result.chance = chance
     result.duration = duration
-    result.reward = result.price * Math.pow(10, quality) 
-      * Math.pow(1.1, result.duration) / result.chance
+
+    var reward = (freePrice + result.price) * Math.pow(1.1, result.duration) / result.chance
+    result.reward = (reward - result.price) * Math.pow(10, quality) + result.price
   }
 
   var panel = instantiate('marketSample')
@@ -44,7 +51,7 @@ market = function(params = {}) {
       if (!this.available()) return
       resources.money.value -= this.price
       resources.idle.reset()
-      roll()
+      this.roll()
       resources.level.value += 1
       refreshMarkets()
     },

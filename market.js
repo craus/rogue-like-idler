@@ -9,7 +9,7 @@ market = function(params = {}) {
     var randPower = gaussianRandom(0, 1)
     var power = basePower + randPower
 
-    var randomDuration = () => Math.floor(1 / Math.pow(Math.random(), 1.2))
+    var randomDuration = () => Math.floor(1 / Math.pow(Math.random(), 1.25))
 
     var duration = randomDuration()
     while (result.level == 0 && duration > 10) {
@@ -30,7 +30,9 @@ market = function(params = {}) {
     result.chance = chance
     result.duration = duration
 
-    var reward = (freePrice + result.price) * Math.pow(1.1, result.duration) / result.chance
+    var reward = (freePrice + result.price) / result.chance
+      * Math.pow(1.1, result.duration * (1-result.chance)) 
+
     result.reward = (reward - result.price) * Math.pow(10, quality) + result.price
   }
 

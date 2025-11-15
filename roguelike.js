@@ -53,25 +53,11 @@ function createRoguelike(params) {
   const x = new Decimal(123.4567)
   console.log(x)
 
-  var newSpeed = () => 
-    Math.pow(resources.distance(), 0.89) *
-    Math.pow(10, Math.floor(Math.log(resources.distance()) / Math.log(1e10))) *
-    Math.pow(10, Math.floor(Math.log(resources.distance()) / Math.log(1e100))) 
-
-  $('.restart').click(() => {
-    resources.speed.value = newSpeed()
-    resources.distance.value = 0
-  })
-
   var result = {
     paint: function() {
       debug.profile('paint')
       
       Object.values(resources).each('paint')
-
-      setFormattedText($('.newSpeed'), large(newSpeed()))
-
-      $('.restart').toggleClass('disabled', newSpeed() < resources.speed())
 
       debug.unprofile('paint')
     },

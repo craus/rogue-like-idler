@@ -9,8 +9,8 @@ var resources = function() {
     return variable(startFarm, name, {formatter: large, incomeFormatter: x => noZero(signed(large(x)))})
   }
   resources = {
-    distance: variable(0, 'distance', {formatter: large}),
-    speed: variable(1, 'speed'),
+    money: variable(0, 'money', {formatter: large}),
+    workers: variable(1, 'workers'),
     time: variable(0, 'time', {formatter: Format.time}),
     idle: variable(0, 'idle', {
       reset: function() {
@@ -20,7 +20,7 @@ var resources = function() {
     lastCommandMoment: variable(-Number.MAX_VALUE, 'lastCommandMoment')
   } 
 
-  resources.distance.income = resources.speed
+  resources.money.income = () => resources.workers() * resources.idle()
   resources.time.income = () => 1
 
   window.resetPower = function() {

@@ -9,11 +9,9 @@ var resources = function() {
     return variable(startFarm, name, {formatter: large, incomeFormatter: x => noZero(signed(large(x)))})
   }
   resources = {
-    money: variable(0, 'money', {formatter: large}),
-    moneyIncome: variable(0, 'moneyIncome'),
+    distance: variable(0, 'distance', {formatter: large}),
+    speed: variable(1, 'speed'),
     time: variable(0, 'time', {formatter: Format.time}),
-    lifetime: variable(30, 'lifetime', {name: 'time', formatter: Format.time}),
-    level: variable(0, 'level', {formatter: large}),
     idle: variable(0, 'idle', {
       reset: function() {
         this.value = 0
@@ -22,6 +20,7 @@ var resources = function() {
     lastCommandMoment: variable(-Number.MAX_VALUE, 'lastCommandMoment')
   } 
 
+  resources.distance.income = resources.speed
   resources.time.income = () => 1
 
   window.resetPower = function() {
@@ -29,14 +28,6 @@ var resources = function() {
     resources.idle.value = 0
   }
 
-  resources.lifetime.inherit('tick', function(sup, deltaTime) {
-    sup(deltaTime)
-    if (this.value <= 0) {
-      resetPower()
-    }
-  })
-
-  resources.money.income = resources.moneyIncome
   resources.idle.income = () => 1
 
   window.controlsLocked = () => resources.time() < resources.lastCommandMoment() + 1

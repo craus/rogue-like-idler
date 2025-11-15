@@ -27,7 +27,6 @@ function createRoguelike(params) {
     Object.values(resources).forEach(function(resource) {
       savedata[resource.id] = resource.save()
     })
-    savedata.markets = markets.map(q => q.save())
     savedata.realTime = timestamp || Date.now()
     localStorage[saveName] = JSON.stringify(savedata)
   } 
@@ -37,24 +36,9 @@ function createRoguelike(params) {
     localStorage.removeItem(saveName)
     location.reload()
   }
-  
-  window.refreshMarkets = function() {
-    console.log("refreshMarkets")
-
-    if (!!markets) {
-      markets.each('destroy')
-    }
-    markets = []
-    for (var i = 0; i < 1; i++) {
-      markets.push(market())
-    }
-    markets.each('paint')  
-  }
 
   resources()
   
-  window.markets = []
-
   $("body").keydown(e => {
     if (e.key == "ArrowLeft") {
       markets[0].discard();
@@ -65,12 +49,19 @@ function createRoguelike(params) {
       wipeSave()
     }
   })
-  
-  if (!!savedata.markets) {
-    markets = savedata.markets.map(market)
-  } else {
-    refreshMarkets()
-  }
+
+  const x = new Decimal(123.4567)
+  console.log(x)
+
+  var newSpeed = () => 
+    Math.pow(resources.distance(), 0.89) *
+    Math.pow(10, Math.floor(Math.log(resources.distance()) / Math.log(1e10))) *
+    Math.pow(10, Math.floor(Math.log(resources.distance()) / Math.log(1e100))) 
+
+  $('.restart').click(() => {
+    resources.speed.value = newSpeed()
+    resources.distance.value = 0
+  })
 
   var result = {
     paint: function() {
@@ -78,7 +69,9 @@ function createRoguelike(params) {
       
       Object.values(resources).each('paint')
 
-      markets.each('paint')
+      setFormattedText($('.newSpeed'), large(newSpeed()))
+
+      $('.restart').toggleClass('disabled', newSpeed() < resources.speed())
 
       debug.unprofile('paint')
     },

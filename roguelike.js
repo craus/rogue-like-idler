@@ -53,11 +53,30 @@ function createRoguelike(params) {
   const x = new Decimal(123.4567)
   console.log(x)
 
+  var workersAmount = () => 1
+  var workersPrice = () => 1
+  var workersCost = () => workersAmount() * workersPrice()
+
+  $('.buyWorkers').click(() => {
+    resources.money.value -= workersCost()
+    resources.workers.value += workersAmount()
+    resources.idle.value = 0
+  })
+
+  var multipliers = []
+
+  
+
   var result = {
     paint: function() {
       debug.profile('paint')
       
       Object.values(resources).each('paint')
+
+      setFormattedText($('.workersAmount'), large(workersAmount()))
+      setFormattedText($('.workersCost'), large(workersCost()))
+
+      $('.buyWorkers').toggleClass('disabled', resources.money() < workersCost())
 
       debug.unprofile('paint')
     },

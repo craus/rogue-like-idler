@@ -23,11 +23,6 @@ var resources = function() {
   resources.money.income = () => resources.workers() * resources.idle()
   resources.time.income = () => 1
 
-  window.resetPower = function() {
-    resources.lifetime.value += resources.idle()
-    resources.idle.value = 0
-  }
-
   resources.idle.income = () => 1
 
   window.controlsLocked = () => resources.time() < resources.lastCommandMoment() + 1

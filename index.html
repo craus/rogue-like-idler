@@ -85,17 +85,18 @@
           </div> 
         </div>
         <div class="row centered">   
-          <div class="col-sm-4 distanceColumn">       
+          <div class="col-sm-4">       
             <div class="money panel panel-primary panel-readiness">
               <div class="panel-heading big left">
                 <span class="capitalized name">?</span>
               </div>
               <div class="panel-body big left">
                 <span class="value">?</span> 
+                <span class="label label-success income">+?</span>
               </div>
             </div>   
           </div> 
-          <div class="col-sm-4 speedColumn">       
+          <div class="col-sm-4">       
             <div class="workers panel panel-primary panel-readiness">
               <div class="panel-heading big left">
                 <span class="capitalized name">?</span>
@@ -105,7 +106,7 @@
               </div>
             </div>   
           </div>     
-          <div class="col-sm-4 speedColumn">       
+          <div class="col-sm-4">       
             <div class="idle panel panel-primary panel-readiness">
               <div class="panel-heading big left">
                 <span class="capitalized name">?</span>
@@ -117,10 +118,8 @@
           </div>  
         </div>  
         
-        <div class="row centered markets alive">
-          <div class="col-sm-4 marketPlaceholder"> 
-          </div>
-          <div class="col-sm-4 hidden marketSample">    
+        <div class="row centered multipliers">
+          <div class="col-sm-4 hidden multiplierSample">    
             <div class="panel panel-default panel-readiness">   
               <div class="panel-heading big population">
                 Level <span class="level"></span>
@@ -137,17 +136,16 @@
           </div>
         </div> 
 
-        <div class="row centered">
-          <div class="col-sm-4">  
-          </div>  
+        <div class="row centered multipliers">
           <div class="col-sm-4">    
             <div class="panel panel-default panel-readiness">   
               <div class="panel-heading big population">
-                Restart run
+                Buy <span class="workersAmount"></span> workers
               </div>
               <div class="panel-body big population">
-                <div class="line">New speed: <span class="newSpeed"></span></div>
-                <button type="button" class="btn btn-primary restart">Restart</button> 
+                <button type="button" class="btn btn-primary buyWorkers">
+                   <span class="workersCost">???</span> money
+                 </button> 
               </div>
             </div>   
           </div>

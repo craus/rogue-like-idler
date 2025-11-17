@@ -40,7 +40,7 @@
   <script src="bot.js"></script> 
   
   <script src="reward.js"></script> 
-  <script src="market.js"></script>
+  <script src="multiplier.js"></script>
 
   <script src="resources.js"></script> 
   <script src="checkpoints.js"></script> 
@@ -118,19 +118,17 @@
           </div>  
         </div>  
         
-        <div class="row centered multipliers">
+        <div class="row centered">
           <div class="col-sm-4 hidden multiplierSample">    
             <div class="panel panel-default panel-readiness">   
-              <div class="panel-heading big population">
-                Level <span class="level"></span>
+              <div class="panel-heading big">
+                <span class="amount"></span>
               </div>
-              <div class="panel-body big population">
-                <div class="line">Cost: <span class="price"></span></div>
-                <div class="line">Duration: <span class="duration"></span></div>
-                <div class="line">Chance: <span class="chance"></span></div>
-                <div class="line">Reward: <span class="reward"></span></div>
-                <button type="button" class="btn btn-primary discard">Discard</button> 
-                <button type="button" class="btn btn-primary choose">Choose</button> 
+              <div class="panel-body big">
+                <div class="line">Buy x<span class="workersAmountMultiplier"></span> workers</div>
+                <div class="line">for x<span class="workersPriceMultiplier"></span> money</div>
+                <button type="button" class="btn btn-primary less">&lt;</button> 
+                <button type="button" class="btn btn-primary more">&gt;</button> 
               </div>
             </div>   
           </div>
@@ -142,7 +140,8 @@
               <div class="panel-heading big population">
                 Buy <span class="workersAmount"></span> workers
               </div>
-              <div class="panel-body big population">
+              <div class="panel-body big">
+                <div class="line">Base price: <span class="workersPrice"></span> money</div>
                 <button type="button" class="btn btn-primary buyWorkers">
                    <span class="workersCost">???</span> money
                  </button> 

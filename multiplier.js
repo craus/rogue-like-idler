@@ -1,12 +1,16 @@
-multiplier = function(params = {}) {
-  var result = params
+multiplier = function(workersAmountMultiplier, workersPriceMultiplier) {
+  var id = 'multiplier_' + workersAmountMultiplier + '_' + workersPriceMultiplier
+
+  var result = {
+    workersAmountMultiplier: workersAmountMultiplier,
+    workersPriceMultiplier: workersPriceMultiplier
+  }
 
   var panel = instantiate('multiplierSample')
   
-  if (params.instantiate != false) {
-    $('.multipliers').append(panel)
-  }
+  $('.multipliers').append(panel)
 
+  result.amount = savedata[id]
   if (result.amount == undefined) {
     result.amount = 0
   }
@@ -20,16 +24,23 @@ multiplier = function(params = {}) {
       panel.find('.less').toggleClass('disabled', this.amount == 0)
     },
     save: function() {
-      return this
+      savedata[id] = this.amount
     },
     destroy: function() {
       panel.remove()
     },
+    more: function() {
+      this.amount += 1
+    },
+    less: function() {
+      this.amount -= 1
+    }
   }, result)
   
   result.paint()
 
-  panel.find('.discard').click(() => result.discard())
-  panel.find('.choose').click(() => result.choose())
+  panel.find('.more').click(() => result.more())
+  panel.find('.less').click(() => result.less())
+
   return result
 } 

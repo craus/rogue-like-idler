@@ -15,7 +15,8 @@ var resources = function() {
     idle: variable(0, 'idle', {
       reset: function() {
         this.value = 0
-      }
+      },
+      formatter: large
     }),
     lastCommandMoment: variable(-Number.MAX_VALUE, 'lastCommandMoment')
   } 

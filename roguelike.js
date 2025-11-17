@@ -27,6 +27,7 @@ function createRoguelike(params) {
     Object.values(resources).forEach(function(resource) {
       savedata[resource.id] = resource.save()
     })
+    multipliers.forEach(m => m.save())
     savedata.realTime = timestamp || Date.now()
     localStorage[saveName] = JSON.stringify(savedata)
   } 
@@ -53,9 +54,13 @@ function createRoguelike(params) {
   const x = new Decimal(123.4567)
   console.log(x)
 
-  var workersAmount = () => 1
-  var workersPrice = () => 1
-  var workersCost = () => workersAmount() * workersPrice()
+  var workersAmount = () => 
+    multipliers.reduce((total, cur) => total * Math.pow(cur.workersAmountMultiplier, cur.amount), 1)
+
+  var workersPrice = () => 
+    multipliers.reduce((total, cur) => total * Math.pow(cur.workersPriceMultiplier, cur.amount), 1000)
+
+  var workersCost = () => workersPrice() / resources.idle()
 
   $('.buyWorkers').click(() => {
     resources.money.value -= workersCost()
@@ -63,9 +68,9 @@ function createRoguelike(params) {
     resources.idle.value = 0
   })
 
-  var multipliers = []
-
-  
+  var multipliers = [
+    multiplier(20000, 30000)
+  ]
 
   var result = {
     paint: function() {
@@ -74,6 +79,7 @@ function createRoguelike(params) {
       Object.values(resources).each('paint')
 
       setFormattedText($('.workersAmount'), large(workersAmount()))
+      setFormattedText($('.workersPrice'), large(workersPrice()))
       setFormattedText($('.workersCost'), large(workersCost()))
 
       $('.buyWorkers').toggleClass('disabled', resources.money() < workersCost())
@@ -86,6 +92,7 @@ function createRoguelike(params) {
       var deltaTime = (currentTime - savedata.realTime) / 1000
       
       Object.values(resources).each('tick', deltaTime)
+      multipliers.each('paint')
       
       save(currentTime)
       debug.unprofile('tick')

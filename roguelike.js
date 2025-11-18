@@ -27,7 +27,6 @@ function createRoguelike(params) {
     Object.values(resources).forEach(function(resource) {
       savedata[resource.id] = resource.save()
     })
-    multipliers.forEach(m => m.save())
     savedata.realTime = timestamp || Date.now()
     localStorage[saveName] = JSON.stringify(savedata)
   } 
@@ -54,23 +53,23 @@ function createRoguelike(params) {
   const x = new Decimal(123.4567)
   console.log(x)
 
-  var workersAmount = () => 
-    multipliers.reduce((total, cur) => total * Math.pow(cur.workersAmountMultiplier, cur.amount), 1)
+  var levelDuration = () => 3 * Math.pow(1.1, resources.level())
+  var winrate = () => 0.5 + 0.5 * (Math.sin(resources.level()) * 100 % 1)
+  var reward = () => 10 * Math.pow(1.2, resources.level())
 
-  var workersPrice = () => 
-    multipliers.reduce((total, cur) => total * Math.pow(cur.workersPriceMultiplier, cur.amount), 1000)
-
-  var workersCost = () => workersPrice() / resources.idle()
-
-  $('.buyWorkers').click(() => {
-    resources.money.value -= workersCost()
-    resources.workers.value += workersAmount()
-    resources.idle.value = 0
-  })
-
-  var multipliers = [
-    multiplier(20000, 30000)
-  ]
+  var completeLevel = () => {
+    resources.levelTime.value -= levelDuration()
+    if (Math.random() < winrate()) {
+      resources.money.value += reward()
+      resources.level.value += 1
+    } else {
+      resources.life.value -= 1
+      if (resources.life() <= 0) {
+        resources.life.value = resources.maxLife()
+        resources.level.value = 0
+      }
+    }
+  }
 
   var result = {
     paint: function() {
@@ -78,11 +77,9 @@ function createRoguelike(params) {
       
       Object.values(resources).each('paint')
 
-      setFormattedText($('.workersAmount'), large(workersAmount()))
-      setFormattedText($('.workersPrice'), large(workersPrice()))
-      setFormattedText($('.workersCost'), large(workersCost()))
-
-      $('.buyWorkers').toggleClass('disabled', resources.money() < workersCost())
+      setFormattedText($('.levelDuration'), large(levelDuration()))
+      setFormattedText($('.reward'), large(reward()))
+      setFormattedText($('.winrate'), large(winrate() * 100) + '%')
 
       debug.unprofile('paint')
     },
@@ -92,7 +89,11 @@ function createRoguelike(params) {
       var deltaTime = (currentTime - savedata.realTime) / 1000
       
       Object.values(resources).each('tick', deltaTime)
-      multipliers.each('paint')
+
+      console.log(deltaTime)
+
+      resources.levelTime.value += deltaTime
+      while (resources.levelTime() >= levelDuration()) completeLevel()
       
       save(currentTime)
       debug.unprofile('tick')

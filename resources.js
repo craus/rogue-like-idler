@@ -10,7 +10,10 @@ var resources = function() {
   }
   resources = {
     money: variable(0, 'money', {formatter: large}),
-    workers: variable(1, 'workers'),
+    level: variable(0, 'level'),
+    levelTime: variable(0, 'levelTime', {formatter: large}),
+    life: variable(1, 'life'),
+    maxLife: variable(1, 'maxLife'),
     time: variable(0, 'time', {formatter: Format.time}),
     idle: variable(0, 'idle', {
       reset: function() {
@@ -21,7 +24,6 @@ var resources = function() {
     lastCommandMoment: variable(-Number.MAX_VALUE, 'lastCommandMoment')
   } 
 
-  resources.money.income = () => resources.workers() * resources.idle()
   resources.time.income = () => 1
 
   resources.idle.income = () => 1

@@ -17,13 +17,14 @@ var resources = function() {
     idle: variable(0, 'idle', {
       reset: function() {
         this.value = 0
-      }
+      },
+      formatter: large
     }),
     lastCommandMoment: variable(-Number.MAX_VALUE, 'lastCommandMoment')
   } 
 
   window.efficiency = () => 
-    Math.pow(3, Math.floor(Math.log(resources.workers()) / Math.log(10)))
+    Math.pow(2, Math.floor(Math.log(resources.workers()) / Math.log(4)))
 
   resources.gold.income = () => 
     10 *

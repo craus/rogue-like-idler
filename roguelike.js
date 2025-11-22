@@ -69,7 +69,11 @@ function createRoguelike(params) {
   })
 
   var multipliers = [
-    multiplier(20000, 30000)
+    multiplier(2e3, 3e3),
+    multiplier(2e5, 3e5),
+    multiplier(2e22, 3e22),
+    multiplier(2e97, 3e97),
+    multiplier(2e239, 3e239),
   ]
 
   var result = {

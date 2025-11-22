@@ -44,7 +44,8 @@ function createRoguelike(params) {
       debug.profile('paint')
       
       Object.values(resources).each('paint')
-      Object.values(multipliers).each('paint')
+
+      setFormattedText($('.efficiency'), large(efficiency()))
 
       debug.unprofile('paint')
     },

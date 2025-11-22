@@ -24,10 +24,9 @@ var resources = function() {
   } 
 
   window.efficiency = () => 
-    Math.pow(2, Math.floor(Math.log(resources.workers()) / Math.log(4)))
+    Math.pow(Math.pow(10, 0.5), Math.floor(Math.log(resources.workers()) / Math.log(10)))
 
   resources.gold.income = () => 
-    10 *
     Math.pow(resources.workers(), 0.5) * 
     efficiency()
     resources.idle()
